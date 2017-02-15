@@ -6,10 +6,10 @@ scalaVersion in ThisBuild :=  "2.11.8"
 
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
-val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0";
+val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
 
 lazy val `lagom-spike` = (project in file("."))
-    .aggregate(`consumer-api`, `consumer-impl`, `producer-api`, `producer-impl`)
+      .aggregate(`consumer-api`, `consumer-impl`, `producer-api`, `producer-impl`)
 
 
 lazy val `consumer-api` = (project  in file("consumer-api"))
@@ -53,3 +53,7 @@ lazy val `producer-impl` = (project in file("producer-impl"))
   )
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(`producer-api`)
+
+lagomCassandraEnabled in ThisBuild := false
+
+lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
