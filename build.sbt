@@ -9,10 +9,10 @@ val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
 val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
 
 lazy val `lagom-spike` = (project in file("."))
-      .aggregate(`consumer-api`, `consumer-impl`, `producer-api`, `producer-impl`)
+      .aggregate(`producer-api`, `producer-impl`)
 
 
-lazy val `consumer-api` = (project  in file("consumer-api"))
+/*lazy val `consumer-api` = (project  in file("consumer-api"))
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslApi
@@ -20,6 +20,7 @@ lazy val `consumer-api` = (project  in file("consumer-api"))
   )
 
 lazy val `consumer-impl` = (project in file("consumer-impl"))
+  .enablePlugins(LagomScala)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
@@ -31,7 +32,7 @@ lazy val `consumer-impl` = (project in file("consumer-impl"))
     )
   )
   .settings(lagomForkedTestSettings: _*)
-  .dependsOn(`consumer-api`)
+  .dependsOn(`consumer-api`)*/
 
 lazy val `producer-api` = (project  in file("producer-api"))
   .settings(
@@ -41,6 +42,7 @@ lazy val `producer-api` = (project  in file("producer-api"))
   )
 
 lazy val `producer-impl` = (project in file("producer-impl"))
+  .enablePlugins(LagomScala)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
@@ -48,12 +50,30 @@ lazy val `producer-impl` = (project in file("producer-impl"))
       lagomScaladslKafkaBroker,
       cassandraApi,
       macwire,
-      scalaTest
+      scalaTest,
+      "org.twitter4j" % "twitter4j-core" % "4.0.6"
     )
   )
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(`producer-api`)
 
-lagomCassandraEnabled in ThisBuild := false
+/*lazy val `producer-stream-api` = (project in file("producer-stream-api"))
+    .settings(
+      libraryDependencies ++= Seq(
+        lagomScaladslApi
+      )
+    )
 
-lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
+lazy val `producer-stream-impl` = (project in file("producer-stream-impl"))
+    .settings(
+      libraryDependencies ++= Seq(
+        lagomScaladslTestKit,
+        macwire,
+        scalaTest
+      )
+    )
+    .dependsOn(`producer-stream-api`, `producer-api`)*/
+
+//lagomCassandraEnabled in ThisBuild := false
+
+//lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
