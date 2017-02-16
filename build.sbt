@@ -9,51 +9,36 @@ val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
 val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
 
 lazy val `lagom-spike` = (project in file("."))
-      .aggregate(`consumer-api`, `consumer-impl`, `producer-api`, `producer-impl`)
+      .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`)
 
 
-lazy val `consumer-api` = (project  in file("consumer-api"))
+lazy val `helloworld-producer-api` = (project  in file("helloworld-producer-api"))
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslApi
     )
   )
 
-lazy val `consumer-impl` = (project in file("consumer-impl"))
+lazy val `helloworld-producer-impl` = (project in file("helloworld-producer-impl"))
+  .enablePlugins(LagomScala)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
       lagomScaladslTestKit,
       lagomScaladslKafkaBroker,
+      lagomScaladslKafkaClient,
+      lagomScaladslBroker,
       cassandraApi,
       macwire,
       scalaTest
     )
   )
   .settings(lagomForkedTestSettings: _*)
-  .dependsOn(`consumer-api`)
-
-lazy val `producer-api` = (project  in file("producer-api"))
-  .settings(
-    libraryDependencies ++= Seq(
-      lagomScaladslApi
-    )
-  )
-
-lazy val `producer-impl` = (project in file("producer-impl"))
-  .settings(
-    libraryDependencies ++= Seq(
-      lagomScaladslPersistenceCassandra,
-      lagomScaladslTestKit,
-      lagomScaladslKafkaBroker,
-      cassandraApi,
-      macwire,
-      scalaTest
-    )
-  )
-  .settings(lagomForkedTestSettings: _*)
-  .dependsOn(`producer-api`)
+  .dependsOn(`helloworld-producer-api`)
 
 lagomCassandraEnabled in ThisBuild := false
 
 lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
+
+lagomKafkaEnabled in ThisBuild := false
+lagomKafkaPort in ThisBuild := 9092
