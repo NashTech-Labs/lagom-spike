@@ -27,24 +27,25 @@ trait HelloService extends Service{
     * Example: curl -H "Content-Type: application/json" -X POST -d '{"message":
     * "Hi"}' http://localhost:9000/api/hello/Alice
     */
-  def userGreeting(id: String): ServiceCall[GreetingMessage, Done]
+  def useGreeting(id: String): ServiceCall[GreetingMessage, Done]
 
   override final def descriptor = {
     import Service._
     // @formatter:off
     named("hello").withCalls(
       pathCall("/api/hello/:id", hello _),
-      pathCall("/api/hello/:id", userGreeting _)
+      pathCall("/api/hello/:id", useGreeting _)
     ).withTopics(
           topic(HelloService.TOPIC_NAME, greetingsTopic)
      ).withAutoAcl(true)
     // @formatter:on
   }
 
+  // The topic handle
   def greetingsTopic(): Topic[GreetingMessage]
 }
 
 object HelloService  {
-  val TOPIC_NAME = "greetings"
+  val TOPIC_NAME = "test123"
 }
 
