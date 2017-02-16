@@ -32,7 +32,7 @@ class HelloServiceImpl(persistentEntityRegistry: PersistentEntityRegistry) exten
     ref.ask(UseGreetingMessage(request.message))
   }
 
-  override def greetingsTopic: Topic[GreetingMessage] = {
+  override def greetingsTopic(): Topic[GreetingMessage] = {
     println("produced---\n\n\n")
     TopicProducer.singleStreamWithOffset {
       offset =>

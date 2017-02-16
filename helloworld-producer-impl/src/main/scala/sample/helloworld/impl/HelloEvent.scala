@@ -1,6 +1,6 @@
 package sample.helloworld.impl
 
-import com.lightbend.lagom.scaladsl.persistence.{AggregateEvent, AggregateEventTag}
+import com.lightbend.lagom.scaladsl.persistence.{AggregateEvent, AggregateEventTag, AggregateEventTagger}
 import play.api.libs.json.{Format, Json}
 
 /**
@@ -11,7 +11,7 @@ import play.api.libs.json.{Format, Json}
   */
 sealed trait HelloEvent extends AggregateEvent[HelloEvent]
 {
-  def aggregateTag: AggregateEventTag[HelloEvent] = {
+  override def aggregateTag: AggregateEventTagger[HelloEvent] = {
      HelloEventTag.instance
   }
 }
