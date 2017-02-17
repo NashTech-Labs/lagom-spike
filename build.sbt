@@ -9,7 +9,7 @@ val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
 val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
 
 lazy val `lagom-spike` = (project in file("."))
-      .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`)
+      .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`, `helloworld-consumer-impl`)
 
 
 lazy val `helloworld-producer-api` = (project  in file("helloworld-producer-api"))
@@ -35,6 +35,30 @@ lazy val `helloworld-producer-impl` = (project in file("helloworld-producer-impl
   )
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(`helloworld-producer-api`)
+
+lazy val `helloworld-consumer-api` = (project  in file("helloworld-consumer-api"))
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslApi
+    )
+  )
+
+lazy val `helloworld-consumer-impl` = (project in file("helloworld-consumer-impl"))
+  .enablePlugins(LagomScala)
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslPersistenceCassandra,
+      lagomScaladslTestKit,
+      lagomScaladslKafkaBroker,
+      lagomScaladslKafkaClient,
+      lagomScaladslBroker,
+      cassandraApi,
+      macwire,
+      scalaTest
+    )
+  )
+  .settings(lagomForkedTestSettings: _*)
+  .dependsOn(`helloworld-consumer-api`, `helloworld-producer-api`, `helloworld-producer-impl`)
 
 lagomCassandraEnabled in ThisBuild := false
 
