@@ -15,18 +15,20 @@ class HelloConsumerServiceImpl (helloService: HelloService) extends HelloConsume
     .subscribe
     .atLeastOnce(
       Flow[GreetingMessage].map{ msg =>
-        doSomethingWithTheMessage(msg)
+        putGreetingMessage(msg)
         Done
       }
     )
 
 
   var lastObservedMessage: String = _
-  private def doSomethingWithTheMessage(greetingMessage: GreetingMessage) = {
+  private def putGreetingMessage(greetingMessage: GreetingMessage) = {
+    //TODO write function to insert data in cassandra and do word count on it
     lastObservedMessage = greetingMessage.message
   }
 
-  override def foo: ServiceCall[NotUsed, String] = ServiceCall {
+  override def wordCount: ServiceCall[NotUsed, String] = ServiceCall {
+        //TODO write function to get data from cassandra
     req => scala.concurrent.Future.successful(lastObservedMessage)
   }
 }
