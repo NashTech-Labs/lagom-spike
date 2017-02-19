@@ -13,19 +13,19 @@ import play.api.libs.ws.ahc.AhcWSComponents
 /**
   * Created by harmeet on 16/2/17.
   */
-class TwitterLoader extends LagomApplicationLoader {
+class TwitterProducerLoader extends LagomApplicationLoader {
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new TwitterApplication(context) {
+    new TwitterProducerApplication(context) {
       override def serviceLocator = NoServiceLocator
     }
 
   override def loadDevMode(context: LagomApplicationContext): LagomApplication =
-    new TwitterApplication(context) with LagomDevModeComponents
+    new TwitterProducerApplication(context) with LagomDevModeComponents
 }
 
 
-abstract class TwitterApplication(context: LagomApplicationContext) extends LagomApplication(context)
+abstract class TwitterProducerApplication(context: LagomApplicationContext) extends LagomApplication(context)
   with CassandraPersistenceComponents with AhcWSComponents with LagomKafkaComponents {
 
   lazy val twitterService = serviceClient.implement[TwitterProducerService]
