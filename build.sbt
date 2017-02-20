@@ -1,3 +1,5 @@
+import scoverage.ScoverageKeys.coverageFailOnMinimum
+
 organization in ThisBuild := "com.knoldus"
 
 version in ThisBuild := "1.0-SNAPSHOT"
