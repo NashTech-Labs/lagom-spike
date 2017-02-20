@@ -24,14 +24,12 @@ class TwitterEntity extends PersistentEntity {
       onCommand[PutTweet, Done] {
 
       case (PutTweet(tweet), ctx, state) =>
-        //println(s"New Tweet ${tweet}")
 
         ctx.thenPersist( TweetSaved(tweet) ) { _ =>
           ctx.reply(Done)
         }
     }.onEvent {
       case (TweetSaved(tweet), state) =>
-        println(s" TweetSaved Event Fire .... ")
         TweetState(Option(tweet), LocalDateTime.now().toString)
     }
   }
