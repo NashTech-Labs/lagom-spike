@@ -1,8 +1,8 @@
 package com.knoldus.consumer.impl.repositories
 
-import akka.persistence.cassandra.session.scaladsl.CassandraSession
 import com.datastax.driver.core.Row
 import com.knoldus.producer.api.models.Tweet
+import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraSession
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
@@ -17,7 +17,6 @@ private[impl]class TwitterRepository(cassandraSession: CassandraSession)(implici
       """
         |SELECT * FROM tweets
         |LIMIT ?
-        |ORDER BY tweet_id
       """.stripMargin
     cassandraSession.selectAll(query, int2Integer(limit)).map { rows =>
       rows.map(row => convertRowToTweets(row))

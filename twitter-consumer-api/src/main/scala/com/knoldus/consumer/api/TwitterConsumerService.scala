@@ -15,7 +15,7 @@ trait TwitterConsumerService extends Service {
 
     named("tweets").withCalls(
       restCall(Method.GET, "/api/latest-tweets?limit", findLatestTweets _)
-    )
+    ).withAutoAcl(true)
   }
 
   def findLatestTweets(limit: Int): ServiceCall[NotUsed, Seq[Tweet]]

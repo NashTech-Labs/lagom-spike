@@ -1,11 +1,10 @@
 package com.knoldus.consumer.impl.events
 
 import akka.Done
-import akka.persistence.cassandra.session.scaladsl.CassandraSession
 import com.datastax.driver.core.PreparedStatement
 import com.lightbend.lagom.scaladsl.persistence.ReadSideProcessor.ReadSideHandler
 import com.lightbend.lagom.scaladsl.persistence.{AggregateEventTag, EventStreamElement, ReadSideProcessor}
-import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraReadSide
+import com.lightbend.lagom.scaladsl.persistence.cassandra.{CassandraReadSide, CassandraSession}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -34,14 +33,13 @@ class TweetEventProcessor(cassandraReadSide: CassandraReadSide, cassandraSession
       _ <- cassandraSession.executeCreateTable(
         """
           CREATE TABLE IF NOT EXISTS tweets (
-            tweet_id long,
-            created_at long,
-            user_id long,
-            tweet_user_name string,
-            text text,
-            friends_count long
-            PRIMARY KEY (tweet_id)
-          )
+           tweet_id bigint,
+           created_at bigint,
+           user_id bigint,
+           tweet_user_name text,
+           text text,
+           friends_count bigint,
+           PRIMARY KEY (tweet_id, created_at)) WITH CLUSTERING ORDER BY (created_at DESC)
       """)
     } yield Done
   }
@@ -50,7 +48,7 @@ class TweetEventProcessor(cassandraReadSide: CassandraReadSide, cassandraSession
     for {
       insert <- cassandraSession.prepare(
         """INSERT INTO
-          |tweets(tweetId, createdAt, userId, tweetUserName, text, friendsCount)
+          |tweets(tweet_id, created_at, user_id, tweet_user_name, text, friends_count)
           |VALUES(?, ?, ?, ?, ?, ?)
           |""".stripMargin)
     } yield {
