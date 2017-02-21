@@ -7,9 +7,10 @@ import com.lightbend.lagom.scaladsl.persistence.PersistentEntityRegistry
 import sample.helloworld.api.HelloService
 import sample.helloworld.api.model.GreetingMessage
 import sample.helloworldconsumer.api.HelloConsumerService
+import sample.helloworldconsumer.impl.repositories.MessageRepository
 
 
-class HelloConsumerServiceImpl (registery: PersistentEntityRegistry ,helloService: HelloService) extends HelloConsumerService {
+class HelloConsumerServiceImpl (registery: PersistentEntityRegistry ,helloService: HelloService ,msgRepository:MessageRepository) extends HelloConsumerService {
 
   helloService.greetingsTopic
     .subscribe
@@ -27,9 +28,9 @@ class HelloConsumerServiceImpl (registery: PersistentEntityRegistry ,helloServic
     lastObservedMessage = greetingMessage.message
   }
 
-  override def wordCount: ServiceCall[NotUsed, String] = ServiceCall {
-        //TODO write function to get data from cassandra
-    req => scala.concurrent.Future.successful(lastObservedMessage)
+  override def findTopHundredWordCounts(): ServiceCall[NotUsed, Map[String, Int]] = ServiceCall {
+        //fetch top 100 message and perform word count
+    req => msgRepository.fetchAndCountWordsFromMessages(100)
   }
 
   private def entityRef(id: String) = registery.refFor[MessageEntity](id)

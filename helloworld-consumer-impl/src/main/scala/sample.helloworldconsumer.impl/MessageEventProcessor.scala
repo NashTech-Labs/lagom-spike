@@ -1,10 +1,10 @@
 package sample.helloworldconsumer.impl
 
 import akka.Done
-import com.datastax.driver.core.PreparedStatement
+import com.datastax.driver.core.{BoundStatement, PreparedStatement}
 import com.lightbend.lagom.scaladsl.persistence.ReadSideProcessor.ReadSideHandler
-import com.lightbend.lagom.scaladsl.persistence.{AggregateEventTag, EventStreamElement, ReadSideProcessor}
 import com.lightbend.lagom.scaladsl.persistence.cassandra.{CassandraReadSide, CassandraSession}
+import com.lightbend.lagom.scaladsl.persistence.{AggregateEventTag, EventStreamElement, ReadSideProcessor}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -31,11 +31,11 @@ class MessageEventProcessor(cassandraReadSide: CassandraReadSide, cassandraSessi
   private def createTable(): Future[Done] = {
     for {
       _ <- cassandraSession.executeCreateTable(
-        """        CREATE TABLE IF NOT EXISTS wordcounts (
+        """        CREATE TABLE IF NOT EXISTS wordcounttest (
                       words text,
-                      count_value counter,
-                      PRIMARY KEY (words)
-                    )
+                      insertion_time timestamp,
+                      PRIMARY KEY (words,insertion_time)
+                    )WITH CLUSTERING ORDER BY (insertion_time DESC)
         """)
     } yield Done
   }
@@ -43,20 +43,17 @@ class MessageEventProcessor(cassandraReadSide: CassandraReadSide, cassandraSessi
   private def prepareStatements(): Future[Done] = {
     for {
       insert <- cassandraSession.prepare(
-        """UPDATE wordcounts set count_value = count_value +1 where words = ? """)
+        """insert into wordcounttest(words ,insertion_time) values(? ,toTimestamp(now())) """)
     } yield {
       insertWordStmt = insert
       Done
     }
   }
 
-  private def insertWord(started: EventStreamElement[MessageSaved]) = {
+  private def insertWord(started: EventStreamElement[MessageSaved]): Future[List[BoundStatement]] = {
     Future.successful {
-      val words = started.event.msg.replaceAll("[^\\p{L}\\p{Nd}]+", " ").split(" ").toList
-      println("get the messgea and all words "+words)
-      val bindings =  words.map{ word=> insertWordStmt.bind(words) }
-      println("values are ===============================> "+bindings)
-      bindings
+     val words = started.event.msg.replaceAll("[^\\p{L}\\p{Nd}]+", " ").split(" ").toList
+     words.map{ word=> insertWordStmt.bind(word) }
     }
   }
 

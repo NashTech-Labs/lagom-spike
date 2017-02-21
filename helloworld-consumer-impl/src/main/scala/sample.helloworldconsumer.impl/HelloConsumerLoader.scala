@@ -13,6 +13,7 @@ import sample.helloworld.api.HelloService
 import sample.helloworld.impl.HelloSerializerRegistry
 import sample.helloworldconsumer.api.HelloConsumerService
 import sample.helloworldconsumer.api.models.WordCount
+import sample.helloworldconsumer.impl.repositories.MessageRepository
 
 
 
@@ -41,12 +42,7 @@ abstract class HelloConsumerApplication(context: LagomApplicationContext)
   //Bind the HelloService client
   lazy val helloService = serviceClient.implement[HelloService]
 
- /* object HelloConsumerSerializerRegistry extends JsonSerializerRegistry {
-    override def serializers: Seq[JsonSerializer[_]] = Seq(
-      JsonSerializer[WordCount]
-    )
-  }*/
-
+  lazy val messageRepository = wire[MessageRepository]
   // Register the JSON serializer registry
   override lazy val jsonSerializerRegistry = HelloSerializerRegistry
 
