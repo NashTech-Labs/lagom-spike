@@ -1,3 +1,5 @@
+import scoverage.ScoverageKeys.coverageFailOnMinimum
+
 organization in ThisBuild := "com.knoldus"
 
 version in ThisBuild := "1.0-SNAPSHOT"
@@ -10,7 +12,8 @@ val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0
 
 lazy val `lagom-spike` = (project in file("."))
   .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`,
-    `helloworld-consumer-impl`, `twitter-producer-api`, `twitter-producer-impl`)
+    `helloworld-consumer-impl`, `twitter-producer-api`, `twitter-producer-impl`,
+    `twitter-consumer-api`, `twitter-producer-impl`)
 
 
 lazy val `helloworld-producer-api` = (project in file("helloworld-producer-api"))
@@ -82,6 +85,28 @@ lazy val `twitter-producer-impl` = (project in file("twitter-producer-impl"))
   )
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(`twitter-producer-api`)
+
+lazy val `twitter-consumer-api` = (project in file("twitter-consumer-api"))
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslApi
+    )
+  )
+  .dependsOn(`twitter-producer-api`)
+
+lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
+  .enablePlugins(LagomScala)
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslPersistenceCassandra,
+      lagomScaladslTestKit,
+      lagomScaladslKafkaBroker,
+      macwire,
+      scalaTest
+    )
+  )
+  .settings(lagomForkedTestSettings: _*)
+  .dependsOn(`twitter-consumer-api`)
 
 //lagomCassandraEnabled in ThisBuild := false
 
