@@ -50,7 +50,11 @@ abstract class HelloConsumerApplication(context: LagomApplicationContext)
   // Register the JSON serializer registry
   override lazy val jsonSerializerRegistry = HelloSerializerRegistry
 
-  // Register the Hello persistent entity
+  // Register the Message persistent entity
   //persistentEntityRegistry.register(wire[HelloEntity])
+
+  persistentEntityRegistry.register(wire[MessageEntity])
+  wire[HelloConsumerServiceImpl]
+  readSide.register(wire[MessageEventProcessor])
 }
 

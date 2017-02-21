@@ -46,6 +46,6 @@ trait HelloService extends Service{
 }
 
 object HelloService  {
-  val TOPIC_NAME = "test123"
+  val TOPIC_NAME = "wordCount"
 }
 

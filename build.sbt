@@ -83,9 +83,9 @@ lazy val `twitter-producer-impl` = (project in file("twitter-producer-impl"))
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(`twitter-producer-api`)
 
-//lagomCassandraEnabled in ThisBuild := false
+lagomCassandraEnabled in ThisBuild := false
 
-//lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
+lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
 
 lagomKafkaEnabled in ThisBuild := false
 
