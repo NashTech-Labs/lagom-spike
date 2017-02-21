@@ -23,6 +23,7 @@ class HelloEntitySpec extends WordSpecLike with Matchers with BeforeAndAfterAll
   }
 
   "Hello Entity " must {
+
     "handle UseGreeting Message and fire an event" in {
       val driver = new PersistentEntityTestDriver(system, new HelloEntity, "Hello Entity-1")
       val newMessage = "Welcome Back!!"
@@ -42,4 +43,3 @@ class HelloEntitySpec extends WordSpecLike with Matchers with BeforeAndAfterAll
     }
   }
 }
-
