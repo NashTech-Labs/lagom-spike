@@ -32,6 +32,7 @@ class TwitterActor(twitterService: TwitterProducerService) extends AbstractActor
       val tweets = TwitterUtil.fetchTweets
       tweets.foreach(twitterService.addNewTweet.invoke(_))
     }
+    case _ => println("unknown message")
   }
 }
 

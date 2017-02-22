@@ -1,7 +1,5 @@
 package com.knoldus.producer.impl.util
 
-import java.util.stream.Collectors
-
 import com.knoldus.producer.api.models.Tweet
 import com.typesafe.config.ConfigFactory
 import twitter4j.TwitterFactory
@@ -12,6 +10,7 @@ import scala.collection.JavaConverters._
 /**
   * Created by harmeet on 16/2/17.
   */
+
 object TwitterUtil {
 
   val config = ConfigFactory.load();

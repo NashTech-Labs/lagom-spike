@@ -25,8 +25,8 @@ class TwitterProducerLoader extends LagomApplicationLoader {
 }
 
 
-abstract class TwitterProducerApplication(context: LagomApplicationContext) extends LagomApplication(context)
-  with CassandraPersistenceComponents with AhcWSComponents with LagomKafkaComponents {
+abstract class TwitterProducerComponents(context: LagomApplicationContext)extends LagomApplication(context)
+  with CassandraPersistenceComponents with AhcWSComponents {
 
   lazy val twitterService = serviceClient.implement[TwitterProducerService]
 
@@ -37,4 +37,9 @@ abstract class TwitterProducerApplication(context: LagomApplicationContext) exte
   override lazy val jsonSerializerRegistry = TwitterSerializerRegistry
 
   persistentEntityRegistry.register(wire[TwitterEntity])
+}
+
+abstract class TwitterProducerApplication(context: LagomApplicationContext) extends TwitterProducerComponents(context)
+  with LagomKafkaComponents {
+
 }

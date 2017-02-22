@@ -17,7 +17,7 @@ import com.lightbend.lagom.scaladsl.persistence.{EventStreamElement, PersistentE
 class TwitterProducerServiceImpl(registry: PersistentEntityRegistry) extends TwitterProducerService {
 
   override def addNewTweet: ServiceCall[Tweet, Done] = ServiceCall { tweet =>
-    val ref = registry.refFor[TwitterEntity]("1")
+    val ref = registry.refFor[TwitterEntity](tweet.tweetId.toString)
     ref.ask(PutTweet(tweet))
   }
 

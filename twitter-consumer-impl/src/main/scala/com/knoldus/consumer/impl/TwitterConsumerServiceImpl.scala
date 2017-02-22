@@ -15,7 +15,7 @@ import scala.concurrent.ExecutionContext
 class TwitterConsumerServiceImpl(twitterRepository: TwitterRepository)(implicit ec: ExecutionContext)
   extends TwitterConsumerService {
 
-  def findLatestTweets(limit: Int): ServiceCall[NotUsed, Seq[Tweet]] = ServiceCall { _ =>
+  override def findLatestTweets(limit: Int): ServiceCall[NotUsed, Seq[Tweet]] = ServiceCall { _ =>
     twitterRepository.fetchAllLatestTweets(limit)
   }
 
