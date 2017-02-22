@@ -9,6 +9,7 @@ scalaVersion in ThisBuild := "2.11.8"
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
 val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
+val mockito = "org.mockito" % "mockito-all" % "1.10.19" % Test
 
 lazy val `lagom-spike` = (project in file("."))
   .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`,
@@ -58,7 +59,8 @@ lazy val `helloworld-consumer-impl` = (project in file("helloworld-consumer-impl
       lagomScaladslBroker,
       cassandraApi,
       macwire,
-      scalaTest
+      scalaTest,
+      mockito
     )
   )
   .settings(lagomForkedTestSettings: _*)

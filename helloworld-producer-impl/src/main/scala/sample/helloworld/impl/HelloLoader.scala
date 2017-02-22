@@ -24,12 +24,13 @@ class HelloLoader extends LagomApplicationLoader {
     new HelloApplication(context) with LagomDevModeComponents
 }
 
-abstract class HelloApplication(context: LagomApplicationContext)
-  extends LagomApplication(context)
-    with CassandraPersistenceComponents
+abstract class HelloApplication(context: LagomApplicationContext) extends HelloComponents(context)
     with LagomKafkaComponents
-    with AhcWSComponents {
+     {
+}
 
+abstract class HelloComponents(context: LagomApplicationContext) extends LagomApplication(context) with CassandraPersistenceComponents
+       with AhcWSComponents {
   // Bind the services that this server provides
   override lazy val lagomServer = LagomServer.forServices(
     bindService[HelloService].to(wire[HelloServiceImpl])

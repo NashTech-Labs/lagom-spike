@@ -5,20 +5,25 @@ import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.{ProducerStub, ProducerStubFactory, ServiceTest}
+import org.mockito.Mockito.when
+import org.scalatest.mockito.MockitoSugar
 import org.scalatest.{AsyncWordSpec, Matchers}
 import sample.helloworld.api.HelloService
 import sample.helloworld.api.model.GreetingMessage
-import sample.helloworld.impl.{Hello, HelloEntity}
 import sample.helloworldconsumer.api.HelloConsumerService
+import sample.helloworldconsumer.impl.repositories.MessageRepository
+
+import scala.concurrent.Future
 
 /**
   * Created by deepti on 21/2/17.
   */
 
-class HelloConsumerServiceSpec extends AsyncWordSpec with Matchers {
+class HelloConsumerServiceImplSpec extends AsyncWordSpec with Matchers with MockitoSugar{
   var producerStub: ProducerStub[GreetingMessage] = _
+  val mockedMessageRepository = mock[MessageRepository]
 
-  "The Hello Consumer Service" should {
+    "The Hello Consumer Service" should {
     "publish updates on greetings message" in
       ServiceTest.withServer(ServiceTest.defaultSetup) { ctx =>
         new HelloConsumerApplication(ctx) with LocalServiceLocator {
@@ -33,9 +38,9 @@ class HelloConsumerServiceSpec extends AsyncWordSpec with Matchers {
       } { server =>
 
         producerStub.send(GreetingMessage("added to kafka!!"))
-
-        server.serviceClient.implement[HelloConsumerService].wordCount.invoke().map { resp =>
-          resp should ===("added to kafka!!")
+        when(mockedMessageRepository.fetchAndCountWordsFromMessages(2)).thenReturn(Future(Map("hi"->1)))
+        server.serviceClient.implement[HelloConsumerService].findTopHundredWordCounts().invoke().map { resp =>
+          resp should ===(Map("hi"->1))
         }
 
       }
