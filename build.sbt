@@ -119,9 +119,9 @@ coverageExcludedPackages in `twitter-producer-impl` :=
 // End => scoverage exludes files configuration according to projects
 
 
-//lagomCassandraEnabled in ThisBuild := false
+lagomCassandraEnabled in ThisBuild := false
 
-//lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
+lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
 
 lagomKafkaEnabled in ThisBuild := false
 

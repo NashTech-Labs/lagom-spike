@@ -2,6 +2,7 @@ package com.knoldus.producer.impl
 
 import com.knoldus.producer.api.{TwitterProducerService, TwitterSchedulerService}
 import com.knoldus.producer.impl.entities.TwitterEntity
+import com.knoldus.producer.impl.util.TwitterUtil
 import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
 import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
 import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
@@ -25,10 +26,12 @@ class TwitterProducerLoader extends LagomApplicationLoader {
 }
 
 
-abstract class TwitterProducerComponents(context: LagomApplicationContext)extends LagomApplication(context)
+abstract class TwitterProducerComponents(context: LagomApplicationContext) extends LagomApplication(context)
   with CassandraPersistenceComponents with AhcWSComponents {
 
   lazy val twitterService = serviceClient.implement[TwitterProducerService]
+
+  lazy val twitterUtil = wire[TwitterUtil]
 
   override lazy val lagomServer = LagomServer.forServices(
     bindService[TwitterProducerService].to(wire[TwitterProducerServiceImpl]),

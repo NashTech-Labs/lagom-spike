@@ -1,17 +1,18 @@
+package com.knoldus.producer.impl
+
 import akka.Done
 import akka.stream.testkit.scaladsl.TestSink
 import com.knoldus.producer.api.TwitterProducerService
 import com.knoldus.producer.api.models.Tweet
-import com.knoldus.producer.impl.{TwitterProducerApplication, TwitterProducerComponents}
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.{ProducerStub, ServiceTest, TestTopicComponents}
-import org.scalatest.{AsyncWordSpec, Matchers}
+import org.scalatest.{AsyncWordSpec, BeforeAndAfterAll, Matchers}
 import play.api.libs.ws.ahc.AhcWSComponents
 
 /**
   * Created by harmeet on 21/2/17.
   */
-class TwitterProducerServiceImplSpec extends AsyncWordSpec with Matchers {
+class TwitterProducerServiceImplSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll {
 
   var producerStub: ProducerStub[Tweet] = _
 
@@ -19,12 +20,16 @@ class TwitterProducerServiceImplSpec extends AsyncWordSpec with Matchers {
     new TwitterProducerComponents(ctx) with LocalServiceLocator with AhcWSComponents with TestTopicComponents
   }
 
+  override protected def beforeAll(): Unit = server
+
+
   lazy val client = server.serviceClient.implement[TwitterProducerService]
 
   "The add new tweet service " should {
     "save new tweet" in {
       val tweet = Tweet(833556819314409473l, 1487570407000l, 206645598, "javinpaul", "12 Advanced Java Programming " +
         "Books for Experienced Programmer", 7880)
+      val value = client.addNewTweet.invoke(tweet)
       client.addNewTweet.invoke(tweet).map { response =>
         response should ===(Done)
       }
@@ -50,4 +55,6 @@ class TwitterProducerServiceImplSpec extends AsyncWordSpec with Matchers {
         .expectNext should === (tweet)
     }
   }
+
+  override protected def afterAll(): Unit = server.stop()
 }

@@ -11,11 +11,11 @@ import scala.collection.JavaConverters._
   * Created by harmeet on 16/2/17.
   */
 
-object TwitterUtil {
+class TwitterUtil {
 
   val config = ConfigFactory.load();
 
-  def fetchTweets = {
+  def fetchTweets: List[Tweet] = {
     val cb = new ConfigurationBuilder()
       .setOAuthConsumerKey(config.getString("twitter.consumerKey"))
       .setOAuthConsumerSecret(config.getString("twitter.consumerSecret"))
@@ -26,6 +26,6 @@ object TwitterUtil {
     val twitter = tf.getInstance()
     twitter.getHomeTimeline().iterator().asScala
       .map(status => Tweet(status.getId, status.getCreatedAt.getTime, status.getUser.getId, status.getUser.getName,
-        status.getText, status.getUser.getFriendsCount))
+        status.getText, status.getUser.getFriendsCount)).toList
   }
 }
