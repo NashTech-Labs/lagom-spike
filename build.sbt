@@ -1,4 +1,4 @@
-
+import scoverage.ScoverageKeys.coverageFailOnMinimum
 
 organization in ThisBuild := "com.knoldus"
 
@@ -7,8 +7,8 @@ version in ThisBuild := "1.0-SNAPSHOT"
 scalaVersion in ThisBuild := "2.11.8"
 
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided"
-val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
+val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
 val mockito = "org.mockito" % "mockito-all" % "1.10.19" % Test
 
 lazy val `lagom-spike` = (project in file("."))
@@ -98,7 +98,6 @@ lazy val `twitter-consumer-api` = (project in file("twitter-consumer-api"))
 
 lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
   .enablePlugins(LagomScala)
-  .settings(lagomForkedTestSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
@@ -108,6 +107,7 @@ lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
       scalaTest
     )
   )
+  .settings(lagomForkedTestSettings: _*)
   .dependsOn(`twitter-consumer-api`)
 
 // scoverage exludes files configuration according to projects
