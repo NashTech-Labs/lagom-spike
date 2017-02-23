@@ -11,11 +11,14 @@ trait HelloConsumerService extends Service {
     import Service._
 
     named("wordCounts").withCalls(
-      restCall(Method.GET, "/api/wordcount", findTopHundredWordCounts _)
+      restCall(Method.GET, "/api/wordcount", findTopHundredWordCounts _),
+      restCall(Method.GET, "/api/foo", foo)
     ).withAutoAcl(true)
   }
 
   def findTopHundredWordCounts(): ServiceCall[NotUsed, Map[String, Int]]
+
+  def foo(): ServiceCall[NotUsed, String]
 
   case class WordDetails(word: String, count: String)
 
