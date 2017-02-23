@@ -14,7 +14,7 @@ import com.softwaremill.macwire.wire
 import play.api.libs.ws.ahc.AhcWSComponents
 
 /**
-  * Created by harmeet on 19/2/17.
+  * Created by Knoldus on 19/2/17.
   */
 
 class TwitterConsumerLoader extends LagomApplicationLoader {

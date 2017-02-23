@@ -3,7 +3,7 @@ package com.knoldus.producer.api.models
 import play.api.libs.json.Json
 
 /**
-  * Created by harmeet on 16/2/17.
+  * Created by Knoldus on 16/2/17.
   */
 case class Tweet(
                   tweetId: Long,

@@ -9,7 +9,7 @@ import com.lightbend.lagom.scaladsl.persistence.cassandra.{CassandraReadSide, Ca
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by harmeet on 19/2/17.
+  * Created by Knoldus on 19/2/17.
   */
 class TweetEventProcessor(cassandraReadSide: CassandraReadSide, cassandraSession: CassandraSession)
                          (implicit ec: ExecutionContext) extends ReadSideProcessor[TweetEvent] {
@@ -19,7 +19,7 @@ class TweetEventProcessor(cassandraReadSide: CassandraReadSide, cassandraSession
   override def buildHandler(): ReadSideHandler[TweetEvent] = {
     cassandraReadSide.builder[TweetEvent]("tweet_offset")
       .setGlobalPrepare(createTable)
-      .setPrepare { tags =>
+      .setPrepare { _ =>
         prepareStatements
       }
       .setEventHandler[TweetSaved](insertTweet)

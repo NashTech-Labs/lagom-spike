@@ -12,12 +12,12 @@ import com.lightbend.lagom.scaladsl.broker.TopicProducer
 import com.lightbend.lagom.scaladsl.persistence.{EventStreamElement, PersistentEntityRegistry}
 
 /**
-  * Created by harmeet on 16/2/17.
+  * Created by Knoldus on 16/2/17.
   */
 class TwitterProducerServiceImpl(registry: PersistentEntityRegistry) extends TwitterProducerService {
 
   override def addNewTweet: ServiceCall[Tweet, Done] = ServiceCall { tweet =>
-    val ref = registry.refFor[TwitterEntity]("1")
+    val ref = registry.refFor[TwitterEntity](tweet.tweetId.toString)
     ref.ask(PutTweet(tweet))
   }
 

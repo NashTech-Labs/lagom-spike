@@ -9,6 +9,7 @@ scalaVersion in ThisBuild := "2.11.8"
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
 val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
+val mockito = "org.mockito" % "mockito-all" % "1.10.19" % Test
 
 lazy val `lagom-spike` = (project in file("."))
   .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`,
@@ -80,6 +81,7 @@ lazy val `twitter-producer-impl` = (project in file("twitter-producer-impl"))
       lagomScaladslKafkaBroker,
       macwire,
       scalaTest,
+      mockito,
       "org.twitter4j" % "twitter4j-core" % "4.0.6"
     )
   )
@@ -107,6 +109,15 @@ lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
   )
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(`twitter-consumer-api`)
+
+// scoverage exludes files configuration according to projects
+coverageExcludedPackages in `twitter-producer-impl` :=
+  """com.knoldus.producer.impl.util.TwitterUtil.*;
+    |com.knoldus.producer.impl.TwitterProducerLoader.*;com.knoldus.producer.impl.TwitterProducerComponents.*;
+    |com.knoldus.producer.impl.TwitterProducerApplication.*;""".stripMargin
+
+// End => scoverage exludes files configuration according to projects
+
 
 lagomCassandraEnabled in ThisBuild := false
 
