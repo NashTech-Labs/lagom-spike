@@ -6,4 +6,4 @@
 
 //coverageMinimum := 90
 
-coverageFailOnMinimum := true
+//coverageFailOnMinimum := true

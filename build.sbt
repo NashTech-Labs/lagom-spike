@@ -98,6 +98,7 @@ lazy val `twitter-consumer-api` = (project in file("twitter-consumer-api"))
 
 lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
   .enablePlugins(LagomScala)
+  .settings(lagomForkedTestSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
@@ -107,7 +108,6 @@ lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
       scalaTest
     )
   )
-  .settings(lagomForkedTestSettings: _*)
   .dependsOn(`twitter-consumer-api`)
 
 // scoverage exludes files configuration according to projects

@@ -28,8 +28,8 @@ class TwitterConsumerLoader extends LagomApplicationLoader {
     new TwitterConsumerApplication(context) with LagomDevModeComponents
 }
 
-abstract class TwitterConsumerApplication(context: LagomApplicationContext) extends LagomApplication(context)
-  with CassandraPersistenceComponents with AhcWSComponents with LagomKafkaComponents {
+abstract class TwitterConsumerComponents(context: LagomApplicationContext) extends LagomApplication(context)
+  with CassandraPersistenceComponents with AhcWSComponents {
 
   lazy val twitterService = serviceClient.implement[TwitterProducerService]
   lazy val twitterRepository = wire[TwitterRepository]
@@ -42,4 +42,8 @@ abstract class TwitterConsumerApplication(context: LagomApplicationContext) exte
   persistentEntityRegistry.register(wire[TweetEntity])
   wire[TwitterProducerSubscriber]
   readSide.register(wire[TweetEventProcessor])
+
 }
+
+abstract class TwitterConsumerApplication(context: LagomApplicationContext) extends TwitterConsumerComponents(context)
+  with LagomKafkaComponents
