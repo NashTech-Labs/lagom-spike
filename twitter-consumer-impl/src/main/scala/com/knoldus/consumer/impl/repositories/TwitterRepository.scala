@@ -8,7 +8,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * Created by harmeet on 20/2/17.
+  * Created by Knoldus on 20/2/17.
   */
 private[impl]class TwitterRepository(cassandraSession: CassandraSession)(implicit ec: ExecutionContext) {
 

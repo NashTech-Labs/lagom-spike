@@ -7,23 +7,26 @@ import com.knoldus.consumer.impl.entities.TweetEntity
 import com.knoldus.producer.api.TwitterProducerService
 import com.knoldus.producer.api.models.Tweet
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntityRegistry
+import org.slf4j.LoggerFactory
 
 import scala.concurrent.Future
 
 /**
-  * Created by harmeet on 19/2/17.
+  * Created by Knoldus on 19/2/17.
   */
-class TwitterProducerSubscriber(registery: PersistentEntityRegistry,
+class TwitterProducerSubscriber(registry: PersistentEntityRegistry,
                                 twitterProducerService: TwitterProducerService) {
+
+  val logger = LoggerFactory.getLogger(classOf[TwitterProducerSubscriber])
 
   twitterProducerService.twitterTweets.subscribe.atLeastOnce(Flow[Tweet].mapAsync(1) {
     case tweet: Tweet =>
-      println(s"obersrve new tweet ${tweet}")
+      logger.info("observe new tweet {}", tweet)
       entityRef(tweet.tweetId.toString).ask(SaveNewTweet(tweet))
     case _ =>
-      println(s"unknown message")
+      logger.info("unknown message")
       Future.successful(Done)
   })
 
-  private def entityRef(id: String) = registery.refFor[TweetEntity](id)
+  private def entityRef(id: String) = registry.refFor[TweetEntity](id)
 }

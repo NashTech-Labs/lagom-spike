@@ -8,7 +8,7 @@ import twitter4j.conf.ConfigurationBuilder
 import scala.collection.JavaConverters._
 
 /**
-  * Created by harmeet on 16/2/17.
+  * Created by Knoldus on 16/2/17.
   */
 
 class TwitterUtil {

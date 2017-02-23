@@ -15,7 +15,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 /**
-  * Created by harmeet on 21/2/17.
+  * Created by Knoldus on 21/2/17.
   */
 class TwitterEntitySpec extends WordSpec with Matchers with BeforeAndAfterAll with TypeCheckedTripleEquals {
 

@@ -1,11 +1,11 @@
 package com.knoldus.producer.impl.events
 
 import com.knoldus.producer.api.models.Tweet
-import com.lightbend.lagom.scaladsl.persistence.{AggregateEvent, AggregateEventTag}
+import com.lightbend.lagom.scaladsl.persistence.{AggregateEvent, AggregateEventTag, AggregateEventTagger}
 import play.api.libs.json.Json
 
 /**
-  * Created by harmeet on 16/2/17.
+  * Created by Knoldus on 16/2/17.
   */
 
 object TweetEventTag {
@@ -13,7 +13,7 @@ object TweetEventTag {
 }
 
 sealed trait TweetEvent extends AggregateEvent[TweetEvent] {
-  override def aggregateTag = TweetEventTag.INSTANCE
+  override def aggregateTag: AggregateEventTagger[TweetEvent] = TweetEventTag.INSTANCE
 }
 
 case class TweetSaved(tweet: Tweet) extends TweetEvent

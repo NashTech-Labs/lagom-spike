@@ -9,7 +9,7 @@ import com.knoldus.producer.impl.states.TweetState
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntity
 
 /**
-  * Created by harmeet on 16/2/17.
+  * Created by Knoldus on 16/2/17.
   */
 class TwitterEntity extends PersistentEntity {
 

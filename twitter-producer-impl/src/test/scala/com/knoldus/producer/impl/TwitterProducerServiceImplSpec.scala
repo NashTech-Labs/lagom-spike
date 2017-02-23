@@ -10,7 +10,7 @@ import org.scalatest.{AsyncWordSpec, BeforeAndAfterAll, Matchers}
 import play.api.libs.ws.ahc.AhcWSComponents
 
 /**
-  * Created by harmeet on 21/2/17.
+  * Created by Knoldus on 21/2/17.
   */
 class TwitterProducerServiceImplSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll {
 

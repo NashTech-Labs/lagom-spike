@@ -4,7 +4,7 @@ import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.api.{Descriptor, Service, ServiceCall}
 
 /**
-  * Created by harmeet on 16/2/17.
+  * Created by Knoldus on 16/2/17.
   */
 trait TwitterSchedulerService extends Service {
 

@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext
 
 
 /**
-  * Created by harmeet on 20/2/17.
+  * Created by Knoldus on 20/2/17.
   */
 class TwitterConsumerServiceImpl(twitterRepository: TwitterRepository)(implicit ec: ExecutionContext)
   extends TwitterConsumerService {

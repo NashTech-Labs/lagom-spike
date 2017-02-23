@@ -19,7 +19,7 @@ import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
 
 /**
-  * Created by harmeet on 22/2/17.
+  * Created by Knoldus on 22/2/17.
   */
 
 class TwitterSchedulerServiceImplSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll with MockitoSugar {

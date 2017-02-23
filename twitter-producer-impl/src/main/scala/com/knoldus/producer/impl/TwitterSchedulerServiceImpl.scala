@@ -12,7 +12,7 @@ import scala.concurrent.Future
 import scala.concurrent.duration.DurationDouble
 
 /**
-  * Created by harmeet on 16/2/17.
+  * Created by Knoldus on 16/2/17.
   */
 class TwitterSchedulerServiceImpl(system: ActorSystem, twitterService: TwitterProducerService, twitterUtil: TwitterUtil)
   extends TwitterSchedulerService {

@@ -7,7 +7,7 @@ import com.lightbend.lagom.scaladsl.api.transport.Method.POST
 import com.lightbend.lagom.scaladsl.api.{Service, ServiceCall}
 
 /**
-  * Created by harmeet on 16/2/17.
+  * Created by Knoldus on 16/2/17.
   */
 trait TwitterProducerService extends Service {
 
