@@ -12,6 +12,7 @@ import sample.helloworldconsumer.impl.repositories.MessageRepository
 
 class HelloConsumerServiceImpl (registery: PersistentEntityRegistry ,helloService: HelloService ,msgRepository:MessageRepository) extends HelloConsumerService {
 
+  println("------------------ here now\n\n\n\n\n " )
   helloService.greetingsTopic
     .subscribe
     .atLeastOnce(
@@ -23,7 +24,6 @@ class HelloConsumerServiceImpl (registery: PersistentEntityRegistry ,helloServic
 
   var lastObservedMessage: String = _
   private def putGreetingMessage(greetingMessage: GreetingMessage) = {
-    println(s"obersrve new message ${greetingMessage.message}")
     entityRef(greetingMessage.message.toString).ask(SaveNewMessage(greetingMessage.message))
     lastObservedMessage = greetingMessage.message
   }
@@ -33,5 +33,5 @@ class HelloConsumerServiceImpl (registery: PersistentEntityRegistry ,helloServic
     req => msgRepository.fetchAndCountWordsFromMessages(100)
   }
 
-  private def entityRef(id: String) = registery.refFor[MessageEntity](id)
+   private def entityRef(id: String) = registery.refFor[MessageEntity](id)
 }
