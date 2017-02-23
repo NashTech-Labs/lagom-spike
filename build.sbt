@@ -14,7 +14,7 @@ val mockito = "org.mockito" % "mockito-all" % "1.10.19" % Test
 lazy val `lagom-spike` = (project in file("."))
   .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`,
     `helloworld-consumer-impl`, `twitter-producer-api`, `twitter-producer-impl`,
-    `twitter-consumer-api`, `twitter-producer-impl`)
+    `twitter-consumer-api`, `twitter-consumer-impl`)
 
 
 lazy val `helloworld-producer-api` = (project in file("helloworld-producer-api"))

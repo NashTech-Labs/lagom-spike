@@ -17,7 +17,7 @@ class TwitterProducerServiceImplSpec extends AsyncWordSpec with Matchers with Be
   var producerStub: ProducerStub[Tweet] = _
 
   lazy val server = ServiceTest.startServer(ServiceTest.defaultSetup.withCassandra(true)) { ctx =>
-    new TwitterProducerComponents(ctx) with LocalServiceLocator with AhcWSComponents with TestTopicComponents
+    new TwitterProducerComponents(ctx) with LocalServiceLocator with TestTopicComponents with AhcWSComponents
   }
 
   override protected def beforeAll(): Unit = server

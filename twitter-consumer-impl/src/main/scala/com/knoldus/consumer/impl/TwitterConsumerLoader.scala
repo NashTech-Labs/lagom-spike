@@ -1,6 +1,6 @@
 package com.knoldus.consumer.impl
 
-import com.knoldus.consumer.api.TwitterConsumerService
+import com.knoldus.consumer.api.{TwitterConsumerService, TwitterProducerSubscriberService}
 import com.knoldus.consumer.impl.entities.TweetEntity
 import com.knoldus.consumer.impl.events.TweetEventProcessor
 import com.knoldus.consumer.impl.repositories.TwitterRepository
@@ -35,12 +35,14 @@ abstract class TwitterConsumerComponents(context: LagomApplicationContext) exten
   lazy val twitterRepository = wire[TwitterRepository]
 
   override lazy val lagomServer = LagomServer.forServices(
-    bindService[TwitterConsumerService].to(wire[TwitterConsumerServiceImpl])
+    bindService[TwitterConsumerService].to(wire[TwitterConsumerServiceImpl]),
+    bindService[TwitterProducerSubscriberService].to(wire[TwitterProducerSubscriberServiceImpl])
   )
+
   override lazy val jsonSerializerRegistry = TwitterSerializerRegistry
 
   persistentEntityRegistry.register(wire[TweetEntity])
-  wire[TwitterProducerSubscriber]
+
   readSide.register(wire[TweetEventProcessor])
 
 }
