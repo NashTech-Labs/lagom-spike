@@ -14,7 +14,7 @@ val mockito = "org.mockito" % "mockito-all" % "1.10.19" % Test
 lazy val `lagom-spike` = (project in file("."))
   .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`,
     `helloworld-consumer-impl`, `twitter-producer-api`, `twitter-producer-impl`,
-    `twitter-consumer-api`, `twitter-producer-impl`)
+    `twitter-consumer-api`, `twitter-consumer-impl`)
 
 
 lazy val `helloworld-producer-api` = (project in file("helloworld-producer-api"))
@@ -99,23 +99,29 @@ lazy val `twitter-consumer-api` = (project in file("twitter-consumer-api"))
 
 lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
   .enablePlugins(LagomScala)
+  .settings(lagomForkedTestSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
       lagomScaladslTestKit,
       lagomScaladslKafkaBroker,
       macwire,
+      mockito,
       scalaTest
     )
   )
-  .settings(lagomForkedTestSettings: _*)
   .dependsOn(`twitter-consumer-api`)
 
 // scoverage exludes files configuration according to projects
 coverageExcludedPackages in `twitter-producer-impl` :=
-  """com.knoldus.producer.impl.util.TwitterUtil.*;
-    |com.knoldus.producer.impl.TwitterProducerLoader.*;com.knoldus.producer.impl.TwitterProducerComponents.*;
-    |com.knoldus.producer.impl.TwitterProducerApplication.*;""".stripMargin
+  """com.knoldus.twitterproducer.impl.util.TwitterUtil.*;
+    |com.knoldus.twitterproducer.impl.TwitterProducerLoader.*;com.knoldus.twitterproducer.impl.TwitterProducerComponents.*;
+    |com.knoldus.twitterproducer.impl.TwitterProducerApplication.*;""".stripMargin
+
+coverageExcludedPackages in `twitter-consumer-impl` :=
+  """com.knoldus.twitterconsumer.impl.TwitterConsumerLoader;com.knoldus.twitterconsumer.impl.TwitterConsumerComponents;
+    |com.knoldus.twitterconsumer.impl.TwitterConsumerApplication;com.knoldus.twitterconsumer.impl.events.TweetEvent;
+  """.stripMargin
 
 // End => scoverage exludes files configuration according to projects
 
