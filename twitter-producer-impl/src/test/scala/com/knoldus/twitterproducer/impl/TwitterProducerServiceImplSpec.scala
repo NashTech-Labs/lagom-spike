@@ -2,11 +2,10 @@ package com.knoldus.twitterproducer.impl
 
 import akka.Done
 import akka.stream.testkit.scaladsl.TestSink
-import com.knoldus.producer.api.TwitterProducerService
 import com.knoldus.twitterproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.api.models.Tweet
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
-import com.lightbend.lagom.scaladsl.testkit.{ProducerStub, ServiceTest, TestTopicComponents}
+import com.lightbend.lagom.scaladsl.testkit.{ServiceTest, TestTopicComponents}
 import org.scalatest.{AsyncWordSpec, BeforeAndAfterAll, Matchers}
 import play.api.libs.ws.ahc.AhcWSComponents
 
@@ -14,8 +13,6 @@ import play.api.libs.ws.ahc.AhcWSComponents
   * Created by Knoldus on 21/2/17.
   */
 class TwitterProducerServiceImplSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll {
-
-  var producerStub: ProducerStub[Tweet] = _
 
   lazy val server = ServiceTest.startServer(ServiceTest.defaultSetup.withCassandra(true)) { ctx =>
     new TwitterProducerComponents(ctx) with LocalServiceLocator with TestTopicComponents with AhcWSComponents

@@ -43,6 +43,4 @@ abstract class TwitterProducerComponents(context: LagomApplicationContext) exten
 }
 
 abstract class TwitterProducerApplication(context: LagomApplicationContext) extends TwitterProducerComponents(context)
-  with LagomKafkaComponents {
-
-}
+  with LagomKafkaComponents

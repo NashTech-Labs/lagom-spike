@@ -28,9 +28,6 @@ class TwitterProducerSubscriberServiceImpl(registry: PersistentEntityRegistry,
       logger.info("observe new tweet {}", tweet)
       message = tweet
       entityRef(tweet.tweetId.toString).ask(SaveNewTweet(tweet))
-    case _ =>
-      logger.info("unknown message")
-      Future.successful(Done)
   })
 
   private def entityRef(id: String) = registry.refFor[TweetEntity](id)

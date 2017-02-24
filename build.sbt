@@ -105,6 +105,7 @@ lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
       lagomScaladslTestKit,
       lagomScaladslKafkaBroker,
       macwire,
+      mockito,
       scalaTest
     )
   )
@@ -112,9 +113,14 @@ lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
 
 // scoverage exludes files configuration according to projects
 coverageExcludedPackages in `twitter-producer-impl` :=
-  """com.knoldus.producer.impl.util.TwitterUtil.*;
-    |com.knoldus.producer.impl.TwitterProducerLoader.*;com.knoldus.producer.impl.TwitterProducerComponents.*;
-    |com.knoldus.producer.impl.TwitterProducerApplication.*;""".stripMargin
+  """com.knoldus.twitterproducer.impl.util.TwitterUtil.*;
+    |com.knoldus.twitterproducer.impl.TwitterProducerLoader.*;com.knoldus.twitterproducer.impl.TwitterProducerComponents.*;
+    |com.knoldus.twitterproducer.impl.TwitterProducerApplication.*;""".stripMargin
+
+coverageExcludedPackages in `twitter-consumer-impl` :=
+  """com.knoldus.twitterconsumer.impl.TwitterConsumerLoader;com.knoldus.twitterconsumer.impl.TwitterConsumerComponents;
+    |com.knoldus.twitterconsumer.impl.TwitterConsumerApplication;com.knoldus.twitterconsumer.impl.events.TweetEvent;
+  """.stripMargin
 
 // End => scoverage exludes files configuration according to projects
 
