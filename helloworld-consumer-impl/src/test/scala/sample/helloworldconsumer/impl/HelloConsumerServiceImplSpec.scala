@@ -5,37 +5,63 @@ import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.{ProducerStub, ProducerStubFactory, ServiceTest}
-import org.scalatest.{AsyncWordSpec, Matchers}
+import org.scalatest.mockito.MockitoSugar
+import org.scalatest.{AsyncWordSpec, BeforeAndAfterAll, Matchers}
 import sample.helloworld.api.HelloService
 import sample.helloworld.api.model.GreetingMessage
 import sample.helloworldconsumer.api.HelloConsumerService
+import sample.helloworldconsumer.impl.repositories.MessageRepository
+import org.mockito.Mockito._
+
+import scala.concurrent.Future
 
 /**
   * Created by deepti on 21/2/17.
   */
 
-class HelloConsumerServiceImplSpec extends AsyncWordSpec with Matchers {
+class HelloConsumerServiceImplSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll with MockitoSugar {
+
+
   var producerStub: ProducerStub[GreetingMessage] = _
 
-  "The Hello consumer Service" should {
-    "publish updates on greetings message" in
-      ServiceTest.withServer(ServiceTest.defaultSetup.withCassandra(true)) { ctx =>
-        new HelloConsumerApplication(ctx) with LocalServiceLocator {
 
-          val stubFactory = new ProducerStubFactory(actorSystem, materializer)
-          producerStub =
-            stubFactory.producer[GreetingMessage](HelloService.TOPIC_NAME)
-          override lazy val helloService = new HelloServiceStub(producerStub)
-        }
-      } { server =>
+
+  lazy val server = ServiceTest.startServer(ServiceTest.defaultSetup.withCassandra(true)) { ctx =>
+    new HelloConsumerApplication(ctx) with LocalServiceLocator {
+
+      val stubFactory = new ProducerStubFactory(actorSystem, materializer)
+      producerStub = stubFactory.producer[GreetingMessage](HelloService.TOPIC_NAME)
+      override lazy val helloService = new HelloServiceStub(producerStub)
+      override lazy val messageRepository = mock[MessageRepository]
+      when(messageRepository.fetchAndCountWordsFromMessages(100)).thenReturn(Future.successful(Map("hi"->2)))
+    }
+  }
+
+  lazy val client = server.serviceClient.implement[HelloConsumerService]
+
+  "The Hello consumer Service" should {
+      "publish updates on greetings message" in {
 
         producerStub.send(GreetingMessage("added to kafka!"))
-        server.serviceClient.implement[HelloConsumerService].foo.invoke().map { resp =>
+        client.foo.invoke().map { resp =>
           resp should ===("added to kafka!")
         }
       }
+
+    "find top hundred word counts" in {
+
+      client.findTopHundredWordCounts.invoke().map { response =>
+        response should ===(Map("hi"->2))
+
+      }
+    }
   }
+
+  override protected def beforeAll() = server
+
+  override protected def afterAll() = server.stop()
 }
+
 
 class HelloServiceStub(stub: ProducerStub[GreetingMessage])
   extends HelloService {
