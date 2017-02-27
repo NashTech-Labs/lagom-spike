@@ -59,7 +59,8 @@ lazy val `helloworld-consumer-impl` = (project in file("helloworld-consumer-impl
       lagomScaladslBroker,
       cassandraApi,
       macwire,
-      scalaTest
+      scalaTest,
+      mockito
     )
   )
   .settings(lagomForkedTestSettings: _*)

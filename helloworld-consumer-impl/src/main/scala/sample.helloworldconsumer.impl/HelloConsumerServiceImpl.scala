@@ -33,5 +33,9 @@ class HelloConsumerServiceImpl (registery: PersistentEntityRegistry ,helloServic
     req => msgRepository.fetchAndCountWordsFromMessages(100)
   }
 
+  override  def foo():ServiceCall[NotUsed, String] = ServiceCall{
+    req => scala.concurrent.Future.successful(lastObservedMessage)
+  }
+
   private def entityRef(id: String) = registery.refFor[MessageEntity](id)
 }

@@ -50,7 +50,7 @@ abstract class HelloConsumerApplication(context: LagomApplicationContext)
   //persistentEntityRegistry.register(wire[HelloEntity])
 
   persistentEntityRegistry.register(wire[MessageEntity])
-  wire[HelloConsumerServiceImpl]
+  //wire[HelloConsumerServiceImpl]
   readSide.register(wire[MessageEventProcessor])
 }
 

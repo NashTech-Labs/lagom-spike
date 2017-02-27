@@ -25,15 +25,13 @@ class HelloServiceImpl(persistentEntityRegistry: PersistentEntityRegistry) exten
 
   override def useGreeting(id: String) = ServiceCall { request =>
     // Look up the Hello entity for the given ID.
-      println("In user greeting \n\n\n")
-    val ref = persistentEntityRegistry.refFor[HelloEntity](id)
+         val ref = persistentEntityRegistry.refFor[HelloEntity](id)
 
     // Tell the entity to use the greeting message specified.
     ref.ask(UseGreetingMessage(request.message))
   }
 
   override def greetingsTopic(): Topic[GreetingMessage] = {
-    println("produced---\n\n\n")
     TopicProducer.singleStreamWithOffset {
       offset =>
         persistentEntityRegistry.eventStream(HelloEventTag.instance, offset)
