@@ -4,6 +4,6 @@
 // See: https://github.com/scoverage/sbt-scoverage
 //------------------------------------
 
-//coverageMinimum := 90
+coverageMinimum := 90
 
 coverageFailOnMinimum := true

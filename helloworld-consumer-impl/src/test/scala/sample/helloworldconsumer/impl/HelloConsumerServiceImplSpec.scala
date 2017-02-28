@@ -13,7 +13,7 @@ import sample.helloworldconsumer.impl.repositories.MessageRepository
 import scala.concurrent.Future
 
 /**
-  * Created by deepti on 21/2/17.
+  * Created by knoldus on 21/2/17.
   */
 
 class HelloConsumerServiceImplSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll with MockitoSugar {

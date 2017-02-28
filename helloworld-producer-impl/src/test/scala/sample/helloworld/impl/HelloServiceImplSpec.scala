@@ -8,7 +8,7 @@ import sample.helloworld.api.HelloService
 import sample.helloworld.api.model.GreetingMessage
 
 /**
-  * Created by deepti on 23/2/17.
+  * Created by knoldus on 23/2/17.
   */
 class HelloServiceImplSpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll{
 

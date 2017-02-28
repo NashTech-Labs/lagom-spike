@@ -123,6 +123,11 @@ coverageExcludedPackages in `twitter-consumer-impl` :=
     |com.knoldus.twitterconsumer.impl.TwitterConsumerApplication;com.knoldus.twitterconsumer.impl.events.TweetEvent;
   """.stripMargin
 
+coverageExcludedPackages in `helloworld-consumer-impl` :=
+"""sample.helloworldconsumer.impl.HelloConsumerLoader""".stripMargin
+
+coverageExcludedPackages in `helloworld-producer-impl` :=
+"""sample.helloworld.impl.HelloLoader""".stripMargin
 // End => scoverage exludes files configuration according to projects
 
 
