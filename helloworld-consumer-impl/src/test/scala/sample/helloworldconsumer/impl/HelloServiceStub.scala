@@ -8,7 +8,7 @@ import sample.helloworld.api.HelloService
 import sample.helloworld.api.model.GreetingMessage
 
 /**
-  * Created by deepti on 27/2/17.
+  * Created by knoldus on 27/2/17.
   */
 class HelloServiceStub(stub: ProducerStub[GreetingMessage])
   extends HelloService {

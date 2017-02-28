@@ -1,21 +1,20 @@
-/*
+
 package sample.helloworldconsumer.impl.repositories
 
 import java.sql.Timestamp
 
+import com.lightbend.lagom.scaladsl.persistence.ReadSide
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.{ProducerStub, ProducerStubFactory, ServiceTest}
 import org.scalatest.{AsyncWordSpec, BeforeAndAfterAll, Matchers}
 import sample.helloworld.api.HelloService
 import sample.helloworld.api.model.GreetingMessage
-import sample.helloworldconsumer.impl.{HelloConsumerApplication, HelloServiceStub}
+import sample.helloworldconsumer.impl.{HelloConsumerApplication, HelloServiceStub, ReadSideTestDriver}
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-/**
-  * Created by deepti on 24/2/17.
-  */
+
 class MessageRepositorySpec extends AsyncWordSpec with Matchers with BeforeAndAfterAll {
 
   case class Message(word: String, insertionTime: Timestamp)
@@ -31,7 +30,7 @@ class MessageRepositorySpec extends AsyncWordSpec with Matchers with BeforeAndAf
 
       override lazy val helloService = new HelloServiceStub(producerStub)
 
-     // override lazy val readSide: ReadSide = new ReadSideTestDriver
+       override lazy val readSide: ReadSide = new ReadSideTestDriver
     }
   }
   val cassandraSession = server.application.cassandraSession
@@ -56,30 +55,27 @@ class MessageRepositorySpec extends AsyncWordSpec with Matchers with BeforeAndAf
 
 
       val f = cassandraSession.prepare(
-        """insert into wordcounttest(words ,insertion_time)
+        """INSERT into wordcounttest(words ,insertion_time)
           |values(? ,toTimestamp(now()))
           | """.stripMargin)
         .map(statement => {
-            statement.bind("hi", new Timestamp(2017, 12, 12, 12, 12, 12, 12))
+          statement.bind("hi")
 
-          })
+        })
 
       for {
         statement <- f
         _ <- cassandraSession.executeWrite(statement)
       } yield {
-        val message = Message("hi", new Timestamp(2017, 12, 12, 12, 12,
-          12, 12))
+        val message = Message("hi", new Timestamp(2017, 12, 12, 12, 12, 12, 12))
+
+        val fResult = server.application.messageRepository.fetchAndCountWordsFromMessages(1)
+        val result = Await.result(fResult, 10 seconds)
+        result.contains("hi") should ===(true)
       }
-
-      val fResult = server.application.messageRepository.
-        fetchAndCountWordsFromMessages(100)
-      val result = Await.result(fResult, 10 seconds)
-      result.contains("hi") should ===(true)
-
     }
   }
 }
 
 
-*/
+

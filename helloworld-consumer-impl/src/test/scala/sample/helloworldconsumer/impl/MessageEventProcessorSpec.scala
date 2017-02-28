@@ -17,7 +17,7 @@ import sample.helloworldconsumer.impl.repositories.MessageRepository
 import scala.concurrent.Future
 
 /**
-  * Created by deepti on 24/2/17.
+  * Created by knoldus on 24/2/17.
   */
 
 case class Message(word: String, insertionTime: Timestamp)
