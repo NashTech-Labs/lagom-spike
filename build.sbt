@@ -18,6 +18,7 @@ lazy val `lagom-spike` = (project in file("."))
 
 
 lazy val `helloworld-producer-api` = (project in file("helloworld-producer-api"))
+  .enablePlugins(CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslApi
@@ -25,7 +26,7 @@ lazy val `helloworld-producer-api` = (project in file("helloworld-producer-api")
   )
 
 lazy val `helloworld-producer-impl` = (project in file("helloworld-producer-impl"))
-  .enablePlugins(LagomScala)
+  .enablePlugins(LagomScala,CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
@@ -42,6 +43,7 @@ lazy val `helloworld-producer-impl` = (project in file("helloworld-producer-impl
   .dependsOn(`helloworld-producer-api`)
 
 lazy val `helloworld-consumer-api` = (project in file("helloworld-consumer-api"))
+  .enablePlugins(CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslApi
@@ -49,7 +51,7 @@ lazy val `helloworld-consumer-api` = (project in file("helloworld-consumer-api")
   )
 
 lazy val `helloworld-consumer-impl` = (project in file("helloworld-consumer-impl"))
-  .enablePlugins(LagomScala)
+  .enablePlugins(LagomScala,CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
@@ -67,6 +69,7 @@ lazy val `helloworld-consumer-impl` = (project in file("helloworld-consumer-impl
   .dependsOn(`helloworld-consumer-api`, `helloworld-producer-api`, `helloworld-producer-impl`)
 
 lazy val `twitter-producer-api` = (project in file("twitter-producer-api"))
+  .enablePlugins(CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslApi
@@ -74,7 +77,7 @@ lazy val `twitter-producer-api` = (project in file("twitter-producer-api"))
   )
 
 lazy val `twitter-producer-impl` = (project in file("twitter-producer-impl"))
-  .enablePlugins(LagomScala)
+  .enablePlugins(LagomScala,CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
@@ -90,6 +93,7 @@ lazy val `twitter-producer-impl` = (project in file("twitter-producer-impl"))
   .dependsOn(`twitter-producer-api`)
 
 lazy val `twitter-consumer-api` = (project in file("twitter-consumer-api"))
+  .enablePlugins(CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslApi
@@ -98,7 +102,7 @@ lazy val `twitter-consumer-api` = (project in file("twitter-consumer-api"))
   .dependsOn(`twitter-producer-api`)
 
 lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
-  .enablePlugins(LagomScala)
+  .enablePlugins(LagomScala,CopyPasteDetector)
   .settings(lagomForkedTestSettings: _*)
   .settings(
     libraryDependencies ++= Seq(
