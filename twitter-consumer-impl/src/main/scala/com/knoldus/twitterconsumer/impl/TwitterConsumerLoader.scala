@@ -11,6 +11,7 @@ import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
 import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraPersistenceComponents
 import com.lightbend.lagom.scaladsl.server.{LagomApplication, LagomApplicationContext, LagomApplicationLoader, LagomServer}
 import com.softwaremill.macwire.wire
+import com.typesafe.conductr.bundlelib.lagom.scaladsl.ConductRApplicationComponents
 import play.api.libs.ws.ahc.AhcWSComponents
 
 /**
@@ -20,9 +21,7 @@ import play.api.libs.ws.ahc.AhcWSComponents
 class TwitterConsumerLoader extends LagomApplicationLoader {
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new TwitterConsumerApplication(context) {
-      override def serviceLocator = NoServiceLocator
-    }
+    new TwitterConsumerApplication(context) with ConductRApplicationComponents
 
   override def loadDevMode(context: LagomApplicationContext): LagomApplication =
     new TwitterConsumerApplication(context) with LagomDevModeComponents
