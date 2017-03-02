@@ -2,7 +2,7 @@ package sample.helloworld.api
 
 import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.api.broker.Topic
-import com.lightbend.lagom.scaladsl.api.{Service, ServiceCall}
+import com.lightbend.lagom.scaladsl.api.{Descriptor, Service, ServiceCall}
 import sample.helloworld.api.model.GreetingMessage
 
 /**
@@ -29,7 +29,7 @@ trait HelloService extends Service{
     */
   def useGreeting(id: String): ServiceCall[GreetingMessage, Done]
 
-  override final def descriptor = {
+  override final def descriptor: Descriptor = {
     import Service._
     // @formatter:off
     named("hello").withCalls(

@@ -1,5 +1,6 @@
 package sample.helloworld.impl
 
+import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.broker.TopicProducer
@@ -15,7 +16,7 @@ import sample.helloworld.api.HelloService
   */
 class HelloServiceImpl(persistentEntityRegistry: PersistentEntityRegistry) extends HelloService {
 
-  override def hello(id: String) = ServiceCall { _ =>
+  override def hello(id: String): ServiceCall[NotUsed, Hello#ReplyType] = ServiceCall { _ =>
     // Look up the Hello entity for the given ID.
     val ref = persistentEntityRegistry.refFor[HelloEntity](id)
 
@@ -23,7 +24,7 @@ class HelloServiceImpl(persistentEntityRegistry: PersistentEntityRegistry) exten
     ref.ask(Hello(id, None))
   }
 
-  override def useGreeting(id: String) = ServiceCall { request =>
+  override def useGreeting(id: String): ServiceCall[GreetingMessage, Done] = ServiceCall { request =>
     // Look up the Hello entity for the given ID.
          val ref = persistentEntityRegistry.refFor[HelloEntity](id)
 

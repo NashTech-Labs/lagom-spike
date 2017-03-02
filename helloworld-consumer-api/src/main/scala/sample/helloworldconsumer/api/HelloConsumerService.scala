@@ -1,13 +1,13 @@
 package sample.helloworldconsumer.api
 
 import akka.NotUsed
-import com.lightbend.lagom.scaladsl.api.{Service, ServiceCall}
+import com.lightbend.lagom.scaladsl.api.{Descriptor, Service, ServiceCall}
 import com.lightbend.lagom.scaladsl.api.transport.Method
 import play.api.libs.json.{Format, Json}
 
 trait HelloConsumerService extends Service {
 
-  override def descriptor = {
+  override def descriptor: Descriptor = {
     import Service._
 
     named("wordCounts").withCalls(

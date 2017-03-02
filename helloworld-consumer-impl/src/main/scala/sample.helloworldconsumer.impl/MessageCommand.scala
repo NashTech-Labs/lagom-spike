@@ -10,7 +10,7 @@ import scala.collection.immutable.Seq
 /**
   * Created by knoldus on 20/2/17.
   */
-sealed trait MessageCommand [T] extends ReplyType[T]
+sealed trait MessageCommand[T] extends ReplyType[T]
 
 case class SaveNewMessage(message: String) extends MessageCommand[Done]
 

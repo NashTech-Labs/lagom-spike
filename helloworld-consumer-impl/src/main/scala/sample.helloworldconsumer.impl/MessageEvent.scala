@@ -12,7 +12,7 @@ object MessageEventTag {
 }
 
 sealed trait MessageEvent extends AggregateEvent[MessageEvent] {
-override def aggregateTag = MessageEventTag.INSTANCE
+override def aggregateTag: AggregateEventTag[MessageEvent] = MessageEventTag.INSTANCE
 }
 
 case class MessageSaved(msg: String) extends MessageEvent

@@ -10,6 +10,8 @@ val macwire = "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
 val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
 val mockito = "org.mockito" % "mockito-all" % "1.10.19" % Test
+val logback = "ch.qos.logback" % "logback-classic" % "1.0.1"
+val twitter = "org.twitter4j" % "twitter4j-core" % "4.0.6"
 
 lazy val `lagom-spike` = (project in file("."))
   .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`,
@@ -36,7 +38,8 @@ lazy val `helloworld-producer-impl` = (project in file("helloworld-producer-impl
       lagomScaladslBroker,
       cassandraApi,
       macwire,
-      scalaTest
+      scalaTest,
+      logback
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -62,7 +65,8 @@ lazy val `helloworld-consumer-impl` = (project in file("helloworld-consumer-impl
       cassandraApi,
       macwire,
       scalaTest,
-      mockito
+      mockito,
+      logback
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -86,7 +90,8 @@ lazy val `twitter-producer-impl` = (project in file("twitter-producer-impl"))
       macwire,
       scalaTest,
       mockito,
-      "org.twitter4j" % "twitter4j-core" % "4.0.6"
+      twitter,
+      logback
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -111,7 +116,8 @@ lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
       lagomScaladslKafkaBroker,
       macwire,
       mockito,
-      scalaTest
+      scalaTest,
+      logback
     )
   )
   .dependsOn(`twitter-consumer-api`)
