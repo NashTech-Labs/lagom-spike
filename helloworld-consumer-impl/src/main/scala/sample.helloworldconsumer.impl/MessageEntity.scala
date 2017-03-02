@@ -27,7 +27,7 @@ class MessageEntity extends PersistentEntity {
         }
     }.onEvent {
       case (MessageSaved(message), state) =>
-        logger.info(s"MessgaeSaved event fire ...")
+        logger.info("Message Saved event fire ...")
 
         MessageState(message, LocalDateTime.now().toString)
     }
