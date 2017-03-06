@@ -5,7 +5,7 @@ import com.knoldus.twitterconsumer.impl.entities.TweetEntity
 import com.knoldus.twitterconsumer.impl.events.TweetEventProcessor
 import com.knoldus.twitterconsumer.impl.repositories.TwitterRepository
 import com.knoldus.twitterproducer.api.TwitterProducerService
-import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
+import com.lightbend.lagom.scaladsl.api.Descriptor
 import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
 import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
 import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraPersistenceComponents
@@ -13,6 +13,8 @@ import com.lightbend.lagom.scaladsl.server.{LagomApplication, LagomApplicationCo
 import com.softwaremill.macwire.wire
 import com.typesafe.conductr.bundlelib.lagom.scaladsl.ConductRApplicationComponents
 import play.api.libs.ws.ahc.AhcWSComponents
+
+import scala.collection.immutable.Seq
 
 /**
   * Created by Knoldus on 19/2/17.
@@ -25,6 +27,11 @@ class TwitterConsumerLoader extends LagomApplicationLoader {
 
   override def loadDevMode(context: LagomApplicationContext): LagomApplication =
     new TwitterConsumerApplication(context) with LagomDevModeComponents
+
+  override def describeServices: Seq[Descriptor] = List(
+    readDescriptor[TwitterConsumerService],
+    readDescriptor[TwitterProducerSubscriberService]
+  )
 }
 
 abstract class TwitterConsumerComponents(context: LagomApplicationContext) extends LagomApplication(context)
