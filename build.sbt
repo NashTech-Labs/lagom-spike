@@ -10,7 +10,7 @@ val macwire = "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
 val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
 val mockito = "org.mockito" % "mockito-all" % "1.10.19" % Test
-val logback = "ch.qos.logback" % "logback-classic" % "1.0.1"
+val logback = "ch.qos.logback" % "logback-classic" % "1.2.1"
 val twitter = "org.twitter4j" % "twitter4j-core" % "4.0.6"
 
 lazy val `lagom-spike` = (project in file("."))
@@ -141,10 +141,10 @@ coverageExcludedPackages in `helloworld-producer-impl` :=
 // End => scoverage exludes files configuration according to projects
 
 
-lagomCassandraEnabled in ThisBuild := false
+/*lagomCassandraEnabled in ThisBuild := false
 
 lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
 
 lagomKafkaEnabled in ThisBuild := false
 
-lagomKafkaAddress in ThisBuild := "localhost:9092"
+lagomKafkaAddress in ThisBuild := "localhost:9092"*/
