@@ -10,7 +10,8 @@ val macwire = "com.softwaremill.macwire" %% "macros" % "2.2.5" % "provided"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.1" % Test
 val cassandraApi = "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0"
 val mockito = "org.mockito" % "mockito-all" % "1.10.19" % Test
-val logback = "ch.qos.logback" % "logback-classic" % "1.0.1"
+val logback = "ch.qos.logback" % "logback-classic" % "1.2.1"
+val log     = "com.typesafe.scala-logging" %% "scala-logging" % "3.4.0"
 val twitter = "org.twitter4j" % "twitter4j-core" % "4.0.6"
 
 lazy val `lagom-spike` = (project in file("."))
@@ -23,7 +24,8 @@ lazy val `helloworld-producer-api` = (project in file("helloworld-producer-api")
   .enablePlugins(CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
-      lagomScaladslApi
+      lagomScaladslApi ,
+      logback, log
     )
   )
 
@@ -39,7 +41,7 @@ lazy val `helloworld-producer-impl` = (project in file("helloworld-producer-impl
       cassandraApi,
       macwire,
       scalaTest,
-      logback
+      logback ,log
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -49,7 +51,8 @@ lazy val `helloworld-consumer-api` = (project in file("helloworld-consumer-api")
   .enablePlugins(CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
-      lagomScaladslApi
+      lagomScaladslApi,
+      logback ,log
     )
   )
 
@@ -66,7 +69,7 @@ lazy val `helloworld-consumer-impl` = (project in file("helloworld-consumer-impl
       macwire,
       scalaTest,
       mockito,
-      logback
+      logback ,log
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -76,7 +79,8 @@ lazy val `twitter-producer-api` = (project in file("twitter-producer-api"))
   .enablePlugins(CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
-      lagomScaladslApi
+      lagomScaladslApi ,
+      logback ,log
     )
   )
 
@@ -91,7 +95,7 @@ lazy val `twitter-producer-impl` = (project in file("twitter-producer-impl"))
       scalaTest,
       mockito,
       twitter,
-      logback
+      logback , log
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -101,7 +105,8 @@ lazy val `twitter-consumer-api` = (project in file("twitter-consumer-api"))
   .enablePlugins(CopyPasteDetector)
   .settings(
     libraryDependencies ++= Seq(
-      lagomScaladslApi
+      lagomScaladslApi,
+      logback ,log
     )
   )
   .dependsOn(`twitter-producer-api`)
@@ -117,7 +122,7 @@ lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
       macwire,
       mockito,
       scalaTest,
-      logback
+      logback ,log
     )
   )
   .dependsOn(`twitter-consumer-api`)
@@ -141,10 +146,10 @@ coverageExcludedPackages in `helloworld-producer-impl` :=
 // End => scoverage exludes files configuration according to projects
 
 
-lagomCassandraEnabled in ThisBuild := false
+/*lagomCassandraEnabled in ThisBuild := false
 
 lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
 
 lagomKafkaEnabled in ThisBuild := false
 
-lagomKafkaAddress in ThisBuild := "localhost:9092"
+lagomKafkaAddress in ThisBuild := "localhost:9092"*/

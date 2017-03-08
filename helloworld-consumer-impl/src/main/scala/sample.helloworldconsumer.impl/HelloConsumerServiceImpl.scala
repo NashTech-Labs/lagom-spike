@@ -27,7 +27,7 @@ class HelloConsumerServiceImpl (registery: PersistentEntityRegistry ,helloServic
 
   var lastObservedMessage: String = _
   private def putGreetingMessage(greetingMessage: GreetingMessage) = {
-    logger.info(s"obersrve new message ${greetingMessage.message}")
+    logger.info(s"observe new message ${greetingMessage.message}")
     entityRef(greetingMessage.message.toString).ask(SaveNewMessage(greetingMessage.message))
     lastObservedMessage = greetingMessage.message
   }

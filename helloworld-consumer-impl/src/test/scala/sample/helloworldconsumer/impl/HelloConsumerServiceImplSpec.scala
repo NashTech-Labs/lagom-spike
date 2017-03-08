@@ -22,7 +22,7 @@ class HelloConsumerServiceImplSpec extends AsyncWordSpec with Matchers with Befo
   var producerStub: ProducerStub[GreetingMessage] = _
 
 
-  lazy val server = ServiceTest.startServer(ServiceTest.defaultSetup.withCassandra(true)) { ctx =>
+  lazy val server = ServiceTest.startServer(ServiceTest.defaultSetup.withCassandra(false)) { ctx =>
     new HelloConsumerApplication(ctx) with LocalServiceLocator {
 
       val stubFactory = new ProducerStubFactory(actorSystem, materializer)

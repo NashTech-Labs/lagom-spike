@@ -1,7 +1,7 @@
 logLevel := Level.Error
 
 // The Lagom plugin
-addSbtPlugin("com.lightbend.lagom" % "lagom-sbt-plugin" % "1.3.0-RC2")
+addSbtPlugin("com.lightbend.lagom" % "lagom-sbt-plugin" % "1.3.1")
 
 //code quality plugins
 addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.8.0")
@@ -14,3 +14,6 @@ addSbtPlugin("de.johoop" % "cpd4sbt" % "1.2.0")
 
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.8.2")
 // end code quality plugins
+
+// ConductR plugin
+addSbtPlugin("com.lightbend.conductr" % "sbt-conductr" % "2.3.0")

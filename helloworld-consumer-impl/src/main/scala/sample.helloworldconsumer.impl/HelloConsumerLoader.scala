@@ -1,18 +1,15 @@
 package sample.helloworldconsumer.impl
 
-import com.lightbend.lagom.scaladsl.api.ServiceLocator
-import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
+import com.lightbend.lagom.scaladsl.api.Descriptor
 import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
 import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
 import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraPersistenceComponents
-import com.lightbend.lagom.scaladsl.playjson.{JsonSerializer, JsonSerializerRegistry}
 import com.lightbend.lagom.scaladsl.server.{LagomApplication, LagomApplicationContext, LagomApplicationLoader, LagomServer}
 import com.softwaremill.macwire._
+import com.typesafe.conductr.bundlelib.lagom.scaladsl.ConductRApplicationComponents
 import play.api.libs.ws.ahc.AhcWSComponents
 import sample.helloworld.api.HelloService
-import sample.helloworld.impl.HelloSerializerRegistry
 import sample.helloworldconsumer.api.HelloConsumerService
-import sample.helloworldconsumer.api.models.WordCount
 import sample.helloworldconsumer.impl.repositories.MessageRepository
 
 
@@ -20,12 +17,14 @@ import sample.helloworldconsumer.impl.repositories.MessageRepository
 class HelloConsumerLoader extends LagomApplicationLoader {
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new HelloConsumerApplication(context) {
-      override def serviceLocator: ServiceLocator = NoServiceLocator
-    }
+    new HelloConsumerApplication(context) with ConductRApplicationComponents
 
   override def loadDevMode(context: LagomApplicationContext): LagomApplication =
     new HelloConsumerApplication(context) with LagomDevModeComponents
+
+  override def describeServices: List[Descriptor] = List(
+       readDescriptor[HelloConsumerService]
+  )
 }
 
 abstract class HelloConsumerApplication(context: LagomApplicationContext)
