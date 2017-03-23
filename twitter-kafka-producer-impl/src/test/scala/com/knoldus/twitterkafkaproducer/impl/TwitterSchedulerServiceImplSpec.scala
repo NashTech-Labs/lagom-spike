@@ -1,12 +1,12 @@
-package com.knoldus.twitterproducer.impl
+package com.knoldus.twitterkafkaproducer.impl
 
 import akka.Done
 import akka.actor.ActorSystem
 import akka.pattern.ask
 import akka.testkit.TestActorRef
 import akka.util.Timeout
-import com.knoldus.twitterkafkaproducer.api.{TwitterProducerService, TwitterSchedulerService}
-import com.knoldus.twitterkafkaproducer.impl.{Start, TwitterActor}
+import com.knoldus.twitterkafkaproducer.api.TwitterSchedulerService
+import com.knoldus.twitterproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.api.models.Tweet
 import com.knoldus.twitterproducer.impl.util.TwitterUtil
 import com.lightbend.lagom.scaladsl.api.ServiceCall
@@ -30,7 +30,7 @@ class TwitterSchedulerServiceImplSpec extends AsyncWordSpec with Matchers with B
   when(mockTwitterService.addNewTweet).thenReturn(ServiceCall[Tweet, Done] { tweet => Future.successful(Done) })
 
   lazy val server = ServiceTest.startServer(ServiceTest.defaultSetup) { ctx =>
-    new TwitterProducerApplication(ctx) with LocalServiceLocator {
+    new TwitterKafkaProducerApplication(ctx) with LocalServiceLocator {
 
       override lazy val twitterService = mockTwitterService
     }

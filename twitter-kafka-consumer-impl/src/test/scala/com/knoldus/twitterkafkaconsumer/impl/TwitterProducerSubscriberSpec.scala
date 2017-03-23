@@ -13,7 +13,7 @@ import scala.concurrent.Future
   */
 class TwitterProducerSubscriberSpec extends AsyncWordSpec with Matchers {
 
-  var producerStub: ProducerStub[Tweet] = _
+  /*var producerStub: ProducerStub[Tweet] = _
 
   "Twitter kafka consumer " should {
     "consume tweets from topic" in ServiceTest.withServer(ServiceTest.defaultSetup.withCassandra(true)) { ctx =>
@@ -34,5 +34,5 @@ class TwitterProducerSubscriberSpec extends AsyncWordSpec with Matchers {
 
       Future.successful("a" === ("a"))
     }
-  }
+  }*/
 }
