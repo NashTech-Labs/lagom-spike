@@ -1,4 +1,4 @@
-package com.knoldus.twitterproducer.api
+package com.knoldus.twitterkafkaproducer.api
 
 import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.api.{Descriptor, Service, ServiceCall}

@@ -2,7 +2,7 @@ package com.knoldus.twitterconsumer.impl
 
 import com.knoldus.twitterconsumer.api.TwitterConsumerService
 import com.knoldus.twitterconsumer.impl.repositories.TwitterRepository
-import com.knoldus.twitterproducer.api.TwitterProducerService
+import com.knoldus.twitterkafkaproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.api.models.Tweet
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.{ProducerStub, ProducerStubFactory, ServiceTest}

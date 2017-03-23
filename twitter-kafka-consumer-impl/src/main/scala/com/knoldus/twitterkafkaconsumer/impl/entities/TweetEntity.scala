@@ -1,11 +1,11 @@
-package com.knoldus.twitterconsumer.impl.entities
+package com.knoldus.twitterkafkaconsumer.impl.entities
 
 import java.time.LocalDateTime
 
 import akka.Done
-import com.knoldus.twitterconsumer.impl.commands.{SaveNewTweet, TweetCommand}
-import com.knoldus.twitterconsumer.impl.events.{TweetEvent, TweetSaved}
-import com.knoldus.twitterconsumer.impl.states.TweetState
+import com.knoldus.twitterkafkaconsumer.impl.commands.{SaveNewTweet, TweetCommand}
+import com.knoldus.twitterkafkaconsumer.impl.events.{TweetEvent, TweetSaved}
+import com.knoldus.twitterkafkaconsumer.impl.states.TweetState
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntity
 import org.slf4j.LoggerFactory
 

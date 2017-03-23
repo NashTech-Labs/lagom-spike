@@ -1,10 +1,10 @@
-package com.knoldus.twitterconsumer.impl
+package com.knoldus.twitterkafkaconsumer.impl
 
+import akka.NotUsed
 import akka.stream.scaladsl.Flow
-import akka.{Done, NotUsed}
-import com.knoldus.twitterconsumer.api.TwitterProducerSubscriberService
-import com.knoldus.twitterconsumer.impl.commands.SaveNewTweet
-import com.knoldus.twitterconsumer.impl.entities.TweetEntity
+import com.knoldus.twitterkafkaconsumer.api.TwitterProducerSubscriberService
+import com.knoldus.twitterkafkaconsumer.impl.commands.SaveNewTweet
+import com.knoldus.twitterkafkaconsumer.impl.entities.TweetEntity
 import com.knoldus.twitterproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.api.models.Tweet
 import com.lightbend.lagom.scaladsl.api.ServiceCall

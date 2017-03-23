@@ -2,7 +2,7 @@ package com.knoldus.twitterconsumer.impl.repositories
 
 import com.datastax.driver.core.PreparedStatement
 import com.knoldus.twitterconsumer.impl.{ReadSideTestDriver, TwitterConsumerComponents, TwitterServiceStub}
-import com.knoldus.twitterproducer.api.TwitterProducerService
+import com.knoldus.twitterkafkaproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.api.models.Tweet
 import com.lightbend.lagom.scaladsl.persistence.ReadSide
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator

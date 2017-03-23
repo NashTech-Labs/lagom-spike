@@ -1,10 +1,7 @@
 package com.knoldus.twitterconsumer.impl
 
-import com.knoldus.twitterconsumer.api.{TwitterConsumerService, TwitterProducerSubscriberService}
-import com.knoldus.twitterconsumer.impl.entities.TweetEntity
-import com.knoldus.twitterconsumer.impl.events.TweetEventProcessor
+import com.knoldus.twitterconsumer.api.TwitterConsumerService
 import com.knoldus.twitterconsumer.impl.repositories.TwitterRepository
-import com.knoldus.twitterproducer.api.TwitterProducerService
 import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
 import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
 import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
@@ -31,21 +28,14 @@ class TwitterConsumerLoader extends LagomApplicationLoader {
 abstract class TwitterConsumerComponents(context: LagomApplicationContext) extends LagomApplication(context)
   with CassandraPersistenceComponents with AhcWSComponents {
 
-  lazy val twitterService = serviceClient.implement[TwitterProducerService]
   lazy val twitterRepository = wire[TwitterRepository]
 
   override lazy val lagomServer = LagomServer.forServices(
-    bindService[TwitterConsumerService].to(wire[TwitterConsumerServiceImpl]),
-    bindService[TwitterProducerSubscriberService].to(wire[TwitterProducerSubscriberServiceImpl])
+    bindService[TwitterConsumerService].to(wire[TwitterConsumerServiceImpl])
   )
 
   override lazy val jsonSerializerRegistry = TwitterSerializerRegistry
-
-  persistentEntityRegistry.register(wire[TweetEntity])
-
-  readSide.register(wire[TweetEventProcessor])
-
 }
 
-abstract class TwitterConsumerApplication(context: LagomApplicationContext) extends TwitterConsumerComponents(context)
-  with LagomKafkaComponents
+abstract class TwitterConsumerApplication(context: LagomApplicationContext)
+  extends TwitterConsumerComponents(context) with LagomKafkaComponents

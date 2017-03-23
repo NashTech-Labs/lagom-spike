@@ -1,7 +1,8 @@
-package com.knoldus.twitterproducer.impl
+package com.knoldus.twitterkafkaproducer.impl
 
+import com.knoldus.twitterkafkaproducer.api.TwitterSchedulerService
 import com.knoldus.twitterproducer.api.TwitterProducerService
-import com.knoldus.twitterproducer.impl.entities.TwitterEntity
+import com.knoldus.twitterproducer.impl.util.TwitterUtil
 import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
 import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
 import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
@@ -12,30 +13,34 @@ import com.softwaremill.macwire.wire
 import play.api.libs.ws.ahc.AhcWSComponents
 
 /**
-  * Created by Knoldus on 16/2/17.
+  * Created by Knoldus on 19/2/17.
   */
-class TwitterProducerLoader extends LagomApplicationLoader {
+
+class TwitterKafkaProducerLoader extends LagomApplicationLoader {
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new TwitterProducerApplication(context) {
+    new TwitterKafkaProducerApplication(context) {
       override def serviceLocator = NoServiceLocator
     }
 
   override def loadDevMode(context: LagomApplicationContext): LagomApplication =
-    new TwitterProducerApplication(context) with LagomDevModeComponents
+    new TwitterKafkaProducerApplication(context) with LagomDevModeComponents
 }
 
-
-abstract class TwitterProducerComponents(context: LagomApplicationContext) extends LagomApplication(context)
+abstract class TwitterKafkaProducerComponents(context: LagomApplicationContext) extends LagomApplication(context)
   with CassandraPersistenceComponents with AhcWSComponents {
 
-  override lazy val lagomServer = LagomServer.forServices(
-    bindService[TwitterProducerService].to(wire[TwitterProducerServiceImpl])
-  )
-  override lazy val jsonSerializerRegistry = TwitterSerializerRegistry
+  lazy val twitterService = serviceClient.implement[TwitterProducerService]
+  lazy val twitterUtil = wire[TwitterUtil]
 
-  persistentEntityRegistry.register(wire[TwitterEntity])
+  override lazy val lagomServer = LagomServer.forServices(
+    bindService[TwitterSchedulerService].to(wire[TwitterSchedulerServiceImpl])
+  )
+
+  override lazy val jsonSerializerRegistry = new JsonSerializerRegistry {
+    override def serializers = Vector.empty
+  }
 }
 
-abstract class TwitterProducerApplication(context: LagomApplicationContext) extends TwitterProducerComponents(context)
+abstract class TwitterKafkaProducerApplication(context: LagomApplicationContext) extends TwitterKafkaProducerComponents(context)
   with LagomKafkaComponents

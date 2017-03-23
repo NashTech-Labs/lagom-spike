@@ -1,4 +1,4 @@
-package com.knoldus.twitterconsumer.api
+package com.knoldus.twitterkafkaconsumer.api
 
 import akka.NotUsed
 import com.knoldus.twitterproducer.api.models.Tweet

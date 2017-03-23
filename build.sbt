@@ -17,7 +17,8 @@ val twitter = "org.twitter4j" % "twitter4j-core" % "4.0.6"
 lazy val `lagom-spike` = (project in file("."))
   .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`,
     `helloworld-consumer-impl`, `twitter-producer-api`, `twitter-producer-impl`,
-    `twitter-consumer-api`, `twitter-consumer-impl`)
+    `twitter-consumer-api`, `twitter-consumer-impl`, `twitter-kafka-consumer-api`, `twitter-kafka-producer-api`,
+    `twitter-kafka-producer-impl`)
 
 
 lazy val `helloworld-producer-api` = (project in file("helloworld-producer-api"))
@@ -94,7 +95,6 @@ lazy val `twitter-producer-impl` = (project in file("twitter-producer-impl"))
       macwire,
       scalaTest,
       mockito,
-      twitter,
       logback , log
     )
   )
@@ -127,6 +127,59 @@ lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
   )
   .dependsOn(`twitter-consumer-api`)
 
+lazy val `twitter-kafka-consumer-api` = (project in file("twitter-kafka-consumer-api"))
+  .enablePlugins(CopyPasteDetector)
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslApi,
+      logback ,log
+    )
+  )
+  .dependsOn(`twitter-producer-api`)
+
+lazy val `twitter-kafka-consumer-impl` = (project in file("twitter-kafka-consumer-impl"))
+  .enablePlugins(LagomScala,CopyPasteDetector)
+  .settings(lagomForkedTestSettings: _*)
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslPersistenceCassandra,
+      lagomScaladslTestKit,
+      lagomScaladslKafkaBroker,
+      macwire,
+      mockito,
+      scalaTest,
+      logback ,log
+    )
+  )
+  .dependsOn(`twitter-kafka-consumer-api`)
+
+lazy val `twitter-kafka-producer-api` = (project in file("twitter-kafka-producer-api"))
+  .enablePlugins(CopyPasteDetector)
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslApi,
+      logback ,log
+    )
+  )
+
+lazy val `twitter-kafka-producer-impl` = (project in file("twitter-kafka-producer-impl"))
+  .enablePlugins(LagomScala,CopyPasteDetector)
+  .settings(lagomForkedTestSettings: _*)
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslPersistenceCassandra,
+      lagomScaladslTestKit,
+      lagomScaladslKafkaBroker,
+      macwire,
+      mockito,
+      scalaTest,
+      twitter,
+      logback ,log
+    )
+  )
+  .dependsOn(`twitter-producer-api`)
+  .dependsOn(`twitter-kafka-producer-api`)
+
 // scoverage exludes files configuration according to projects
 coverageExcludedPackages in `twitter-producer-impl` :=
   """com.knoldus.twitterproducer.impl.util.TwitterUtil.*;
@@ -146,10 +199,10 @@ coverageExcludedPackages in `helloworld-producer-impl` :=
 // End => scoverage exludes files configuration according to projects
 
 
-/*lagomCassandraEnabled in ThisBuild := false
+lagomCassandraEnabled in ThisBuild := false
 
 lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
 
 lagomKafkaEnabled in ThisBuild := false
 
-lagomKafkaAddress in ThisBuild := "localhost:9092"*/
+lagomKafkaAddress in ThisBuild := "localhost:9092"

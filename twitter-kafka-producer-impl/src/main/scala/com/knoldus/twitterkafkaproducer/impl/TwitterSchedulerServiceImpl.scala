@@ -1,8 +1,9 @@
-package com.knoldus.twitterproducer.impl
+package com.knoldus.twitterkafkaproducer.impl
 
 import akka.actor.{AbstractActor, ActorSystem, Props}
 import akka.{Done, NotUsed}
-import com.knoldus.twitterproducer.api.{TwitterProducerService, TwitterSchedulerService}
+import com.knoldus.twitterkafkaproducer.api.TwitterSchedulerService
+import com.knoldus.twitterproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.impl.util.TwitterUtil
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import org.slf4j.LoggerFactory

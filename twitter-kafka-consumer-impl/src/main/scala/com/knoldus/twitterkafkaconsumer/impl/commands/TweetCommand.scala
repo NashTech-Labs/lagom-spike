@@ -1,4 +1,4 @@
-package com.knoldus.twitterconsumer.impl.commands
+package com.knoldus.twitterkafkaconsumer.impl.commands
 
 import akka.Done
 import com.knoldus.twitterproducer.api.models.Tweet

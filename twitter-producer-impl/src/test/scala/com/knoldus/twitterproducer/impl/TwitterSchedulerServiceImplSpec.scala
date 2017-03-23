@@ -5,8 +5,9 @@ import akka.actor.ActorSystem
 import akka.pattern.ask
 import akka.testkit.TestActorRef
 import akka.util.Timeout
+import com.knoldus.twitterkafkaproducer.api.{TwitterProducerService, TwitterSchedulerService}
+import com.knoldus.twitterkafkaproducer.impl.{Start, TwitterActor}
 import com.knoldus.twitterproducer.api.models.Tweet
-import com.knoldus.twitterproducer.api.{TwitterProducerService, TwitterSchedulerService}
 import com.knoldus.twitterproducer.impl.util.TwitterUtil
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator

@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import akka.persistence.query.Sequence
 import com.knoldus.twitterconsumer.impl.{ReadSideTestDriver, TwitterConsumerComponents, TwitterServiceStub}
-import com.knoldus.twitterproducer.api.TwitterProducerService
+import com.knoldus.twitterkafkaproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.api.models.Tweet
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.{ProducerStub, ProducerStubFactory, ServiceTest}

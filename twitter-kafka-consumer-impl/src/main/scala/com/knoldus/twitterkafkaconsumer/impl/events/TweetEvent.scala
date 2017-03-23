@@ -1,4 +1,4 @@
-package com.knoldus.twitterconsumer.impl.events
+package com.knoldus.twitterkafkaconsumer.impl.events
 
 import com.knoldus.twitterproducer.api.models.Tweet
 import com.lightbend.lagom.scaladsl.persistence.{AggregateEvent, AggregateEventTag, AggregateEventTagger}

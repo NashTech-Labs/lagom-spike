@@ -1,4 +1,4 @@
-package com.knoldus.twitterconsumer.impl.states
+package com.knoldus.twitterkafkaconsumer.impl.states
 
 import com.knoldus.twitterproducer.api.models.Tweet
 import play.api.libs.json.Json

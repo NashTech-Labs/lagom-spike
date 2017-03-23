@@ -1,4 +1,4 @@
-package com.knoldus.twitterconsumer.impl.events
+package com.knoldus.twitterkafkaconsumer.impl.events
 
 import akka.Done
 import com.datastax.driver.core.PreparedStatement

@@ -2,7 +2,7 @@ package com.knoldus.twitterproducer.impl
 
 import akka.Done
 import akka.stream.testkit.scaladsl.TestSink
-import com.knoldus.twitterproducer.api.TwitterProducerService
+import com.knoldus.twitterkafkaproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.api.models.Tweet
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.{ServiceTest, TestTopicComponents}

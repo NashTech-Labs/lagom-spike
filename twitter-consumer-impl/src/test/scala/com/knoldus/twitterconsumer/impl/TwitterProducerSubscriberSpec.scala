@@ -1,7 +1,7 @@
 package com.knoldus.twitterconsumer.impl
 
 import com.knoldus.twitterconsumer.api.TwitterProducerSubscriberService
-import com.knoldus.twitterproducer.api.TwitterProducerService
+import com.knoldus.twitterkafkaproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.api.models.Tweet
 import com.lightbend.lagom.scaladsl.persistence.ReadSide
 import com.lightbend.lagom.scaladsl.server.LocalServiceLocator
