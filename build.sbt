@@ -17,8 +17,7 @@ val twitter = "org.twitter4j" % "twitter4j-core" % "4.0.6"
 lazy val `lagom-spike` = (project in file("."))
   .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`,
     `helloworld-consumer-impl`, `twitter-producer-api`, `twitter-producer-impl`,
-    `twitter-consumer-api`, `twitter-consumer-impl`, `twitter-kafka-consumer-api`, `twitter-kafka-producer-api`,
-    `twitter-kafka-producer-impl`)
+    `twitter-kafka-consumer-api`, `twitter-kafka-producer-api`, `twitter-kafka-producer-impl`)
 
 
 lazy val `helloworld-producer-api` = (project in file("helloworld-producer-api"))
@@ -101,32 +100,6 @@ lazy val `twitter-producer-impl` = (project in file("twitter-producer-impl"))
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(`twitter-producer-api`)
 
-lazy val `twitter-consumer-api` = (project in file("twitter-consumer-api"))
-  .enablePlugins(CopyPasteDetector)
-  .settings(
-    libraryDependencies ++= Seq(
-      lagomScaladslApi,
-      logback ,log
-    )
-  )
-  .dependsOn(`twitter-producer-api`)
-
-lazy val `twitter-consumer-impl` = (project in file("twitter-consumer-impl"))
-  .enablePlugins(LagomScala,CopyPasteDetector)
-  .settings(lagomForkedTestSettings: _*)
-  .settings(
-    libraryDependencies ++= Seq(
-      lagomScaladslPersistenceCassandra,
-      lagomScaladslTestKit,
-      lagomScaladslKafkaBroker,
-      macwire,
-      mockito,
-      scalaTest,
-      logback ,log
-    )
-  )
-  .dependsOn(`twitter-consumer-api`)
-
 lazy val `twitter-kafka-consumer-api` = (project in file("twitter-kafka-consumer-api"))
   .enablePlugins(CopyPasteDetector)
   .settings(
@@ -186,7 +159,7 @@ coverageExcludedPackages in `twitter-producer-impl` :=
     |com.knoldus.twitterproducer.impl.TwitterProducerLoader.*;com.knoldus.twitterproducer.impl.TwitterProducerComponents.*;
     |com.knoldus.twitterproducer.impl.TwitterProducerApplication.*;""".stripMargin
 
-coverageExcludedPackages in `twitter-consumer-impl` :=
+coverageExcludedPackages in `twitter-kafka-consumer-impl` :=
   """com.knoldus.twitterconsumer.impl.TwitterConsumerLoader;com.knoldus.twitterconsumer.impl.TwitterConsumerComponents;
     |com.knoldus.twitterconsumer.impl.TwitterConsumerApplication;com.knoldus.twitterconsumer.impl.events.TweetEvent;
   """.stripMargin
