@@ -3,6 +3,7 @@ package com.knoldus.twitterkafkaproducer.impl
 import com.knoldus.twitterkafkaproducer.api.TwitterSchedulerService
 import com.knoldus.twitterproducer.api.TwitterProducerService
 import com.knoldus.twitterproducer.impl.util.TwitterUtil
+import com.lightbend.lagom.scaladsl.api.Descriptor
 import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
 import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
 import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
@@ -10,7 +11,10 @@ import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraPersistenceCo
 import com.lightbend.lagom.scaladsl.playjson.JsonSerializerRegistry
 import com.lightbend.lagom.scaladsl.server.{LagomApplication, LagomApplicationContext, LagomApplicationLoader, LagomServer}
 import com.softwaremill.macwire.wire
+import com.typesafe.conductr.bundlelib.lagom.scaladsl.ConductRApplicationComponents
 import play.api.libs.ws.ahc.AhcWSComponents
+
+import scala.collection.immutable.Seq
 
 /**
   * Created by Knoldus on 19/2/17.
@@ -19,12 +23,14 @@ import play.api.libs.ws.ahc.AhcWSComponents
 class TwitterKafkaProducerLoader extends LagomApplicationLoader {
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new TwitterKafkaProducerApplication(context) {
-      override def serviceLocator = NoServiceLocator
-    }
+    new TwitterKafkaProducerApplication(context) with ConductRApplicationComponents
 
   override def loadDevMode(context: LagomApplicationContext): LagomApplication =
     new TwitterKafkaProducerApplication(context) with LagomDevModeComponents
+
+  override def describeServices: Seq[Descriptor] = List(
+    readDescriptor[TwitterSchedulerService]
+  )
 }
 
 abstract class TwitterKafkaProducerComponents(context: LagomApplicationContext) extends LagomApplication(context)
