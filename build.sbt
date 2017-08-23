@@ -13,6 +13,7 @@ val mockito = "org.mockito" % "mockito-all" % "1.10.19" % Test
 val logback = "ch.qos.logback" % "logback-classic" % "1.2.1"
 val log     = "com.typesafe.scala-logging" %% "scala-logging" % "3.4.0"
 val twitter = "org.twitter4j" % "twitter4j-core" % "4.0.6"
+val sbr = "com.lightbend.akka" %% "akka-split-brain-resolver" % "1.0.3"
 
 lazy val `lagom-spike` = (project in file("."))
   .aggregate(`helloworld-producer-api`, `helloworld-producer-impl`, `helloworld-consumer-api`,
@@ -41,7 +42,7 @@ lazy val `helloworld-producer-impl` = (project in file("helloworld-producer-impl
       cassandraApi,
       macwire,
       scalaTest,
-      logback ,log
+      logback ,log, sbr
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -69,7 +70,7 @@ lazy val `helloworld-consumer-impl` = (project in file("helloworld-consumer-impl
       macwire,
       scalaTest,
       mockito,
-      logback ,log
+      logback ,log, sbr
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -146,10 +147,10 @@ coverageExcludedPackages in `helloworld-producer-impl` :=
 // End => scoverage exludes files configuration according to projects
 
 
-/*lagomCassandraEnabled in ThisBuild := false
+lagomCassandraEnabled in ThisBuild := false
 
 lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
 
 lagomKafkaEnabled in ThisBuild := false
 
-lagomKafkaAddress in ThisBuild := "localhost:9092"*/
+lagomKafkaAddress in ThisBuild := "localhost:9092"

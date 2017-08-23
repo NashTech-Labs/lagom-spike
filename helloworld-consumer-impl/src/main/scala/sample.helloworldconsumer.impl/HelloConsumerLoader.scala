@@ -11,6 +11,7 @@ import play.api.libs.ws.ahc.AhcWSComponents
 import sample.helloworld.api.HelloService
 import sample.helloworldconsumer.api.HelloConsumerService
 import sample.helloworldconsumer.impl.repositories.MessageRepository
+import scala.concurrent.duration._
 
 
 
@@ -32,6 +33,9 @@ abstract class HelloConsumerApplication(context: LagomApplicationContext)
     with CassandraPersistenceComponents
     with LagomKafkaComponents
     with AhcWSComponents {
+  applicationLifecycle.addStopHook { () =>
+    persistentEntityRegistry.gracefulShutdown(15.seconds)
+  }
 
   // Bind the services that this server provides
   override lazy val lagomServer = LagomServer.forServices(

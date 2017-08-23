@@ -12,6 +12,7 @@ import com.softwaremill.macwire._
 import com.typesafe.conductr.bundlelib.lagom.scaladsl.ConductRApplicationComponents
 import play.api.libs.ws.ahc.AhcWSComponents
 import sample.helloworld.api.HelloService
+import scala.concurrent.duration._
 
 class HelloLoader extends LagomApplicationLoader {
 
@@ -35,6 +36,9 @@ abstract class HelloApplication(context: LagomApplicationContext) extends HelloC
 abstract class HelloComponents(context: LagomApplicationContext) extends LagomApplication(context)
   with CassandraPersistenceComponents
 with AhcWSComponents{
+  applicationLifecycle.addStopHook { () =>
+    persistentEntityRegistry.gracefulShutdown(15.seconds)
+  }
 
 
   // Bind the services that this server provides
